@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VALMOR — Belleza en la Ruina</title>
+  <meta name="description" content="Valmor: Belleza en la ruina. Explora un universo de fantasía oscura con personajes legendarios y vestigios del pasado." />
+
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            abyss: '#0a0a0b',
+            ash: '#1a1a1d',
+            charcoal: '#232328',
+            slate_dark: '#2e2e34',
+            ember: '#c8873b',
+            ember_dim: '#a06a2a',
+            ember_glow: '#e6a84d',
+            ember_pale: '#f5d9a8',
+            bone: '#c9c2b3',
+            parchment: '#9e9787',
+          },
+          fontFamily: {
+            title: ['Cinzel', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========== BASE & TEXTURE ========== */
+    body {
+      background-color: #0a0a0b;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Subtle burned-parchment noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ========== CUSTOM SCROLLBAR ========== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0b; }
+    ::-webkit-scrollbar-thumb { background: #a06a2a; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #c8873b; }
+
+    /* ========== SECTION TRANSITIONS ========== */
+    .section-panel {
+      display: none;
+    }
+    .section-panel.active {
+      display: block;
+      animation: section-fade-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes section-fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========== GLASSMORPHISM CARD ========== */
+    .glass-card {
+      background: rgba(26, 26, 29, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(200, 135, 59, 0.12);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.35s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(200, 135, 59, 0.45);
+      box-shadow: 0 0 20px rgba(200, 135, 59, 0.08), inset 0 0 30px rgba(200, 135, 59, 0.03);
+      transform: translateY(-2px);
+    }
+
+    /* ========== NAV LINK STYLE ========== */
+    .nav-link {
+      position: relative;
+      color: #9e9787;
+      transition: color 0.35s ease;
+      letter-spacing: 0.15em;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 1px;
+      background: #c8873b;
+      transition: width 0.35s ease, left 0.35s ease;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+      color: #e6a84d;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* ========== HERO DECORATIVE LINE ========== */
+    .hero-line {
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #c8873b, transparent);
+      animation: line-expand 2s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards;
+    }
+    @keyframes line-expand {
+      to { width: 280px; }
+    }
+
+    /* ========== HERO TITLE REVEAL ========== */
+    .hero-title {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: title-reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+    }
+    @keyframes title-reveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-subtitle {
+      opacity: 0;
+      animation: subtitle-reveal 1s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+    }
+    @keyframes subtitle-reveal {
+      to { opacity: 1; }
+    }
+
+    /* ========== IMAGE PLACEHOLDER ========== */
+    .img-placeholder {
+      background: linear-gradient(145deg, #1a1a1d 0%, #232328 50%, #1a1a1d 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .img-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(200, 135, 59, 0.04) 50%, transparent 60%);
+    }
+
+    /* ========== ICON PLACEHOLDER (collection) ========== */
+    .icon-placeholder {
+      background: linear-gradient(145deg, #232328, #2e2e34);
+      border: 1px solid rgba(200, 135, 59, 0.15);
+      position: relative;
+    }
+    .icon-placeholder::after {
+      content: '◆';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(200, 135, 59, 0.25);
+      font-size: 1.1rem;
+    }
+
+    /* ========== ENTER BUTTON ========== */
+    .btn-ember {
+      position: relative;
+      border: 1px solid rgba(200, 135, 59, 0.35);
+      color: #c8873b;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    .btn-ember::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(200, 135, 59, 0.08), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+    .btn-ember:hover {
+      border-color: #e6a84d;
+      color: #e6a84d;
+      box-shadow: 0 0 24px rgba(200, 135, 59, 0.12);
+    }
+    .btn-ember:hover::before {
+      transform: translateX(100%);
+    }
+
+    /* ========== LORE DIVIDER ========== */
+    .lore-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      opacity: 0.3;
+    }
+    .lore-divider span {
+      flex-shrink: 0;
+      color: #c8873b;
+      font-size: 0.55rem;
+    }
+    .lore-divider::before,
+    .lore-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #c8873b, transparent);
+    }
+
+    /* ========== STAGGER ANIMATION ========== */
+    .stagger-item {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .stagger-item.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== MOBILE BOTTOM BAR ========== */
+    .mobile-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(10, 10, 11, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(200, 135, 59, 0.1);
+      padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+    }
+    .mobile-bottom-bar button {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #9e9787;
+      transition: color 0.3s ease;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .mobile-bottom-bar button.active {
+      color: #e6a84d;
+    }
+    .mobile-bottom-bar button .tab-icon,
+    .mobile-bottom-bar button .tab-icon-svg {
+      font-size: 1.1rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .mobile-bottom-bar button .tab-icon-svg {
+      width: 18px;
+      height: 18px;
+    }
+    .mobile-bottom-bar button .tab-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    @media (min-width: 768px) {
+      .mobile-bottom-bar { display: none; }
+    }
+    @media (max-width: 767px) {
+      body { padding-bottom: 70px; }
+    }
+
+    /* ========== PARTICLE EMBER BG ========== */
+    #ember-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ========== COLLECTION ITEM HOVER DETAIL ========== */
+    .collection-item {
+      cursor: pointer;
+    }
+    .collection-item .lore-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+      opacity: 0;
+    }
+    .collection-item.expanded .lore-detail {
+      max-height: 200px;
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-bone font-body relative">
+
+  <!-- Floating Ember Particles Canvas -->
+  <canvas id="ember-canvas"></canvas>
+
+  <!-- ============================================================ -->
+  <!-- NAVIGATION -->
+  <!-- ============================================================ -->
+  <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+      <!-- Logo -->
+      <button onclick="navigateTo('home')" class="font-title text-xl tracking-[0.3em] text-ember hover:text-ember_glow transition-colors duration-300" id="nav-logo">
+        VALMOR
+      </button>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-10">
+        <button onclick="navigateTo('home')" class="nav-link font-title text-xs uppercase active" data-nav="home" id="nav-home">Inicio</button>
+        <button onclick="navigateTo('characters')" class="nav-link font-title text-xs uppercase" data-nav="characters" id="nav-characters">Personajes</button>
+        <button onclick="navigateTo('collection')" class="nav-link font-title text-xs uppercase" data-nav="collection" id="nav-collection">Colección</button>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Mobile Bottom Tab Bar -->
+  <div class="mobile-bottom-bar md:hidden flex" id="mobile-bar">
+    <button onclick="navigateTo('home')" class="active" data-nav="home" id="mobile-tab-home">
+      <svg class="tab-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="tab-label">Inicio</span>
+    </button>
+    <button onclick="navigateTo('characters')" data-nav="characters" id="mobile-tab-characters">
+      <svg class="tab-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="tab-label">Personajes</span>
+    </button>
+    <button onclick="navigateTo('collection')" data-nav="collection" id="mobile-tab-collection">
+      <svg class="tab-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span class="tab-label">Colección</span>
+    </button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MAIN CONTENT -->
+  <!-- ============================================================ -->
+  <main class="relative z-10">
+
+    <!-- ======================== HOME ======================== -->
+    <section id="section-home" class="section-panel active visible">
+      <!-- Hero -->
+      <div class="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+        <!-- Decorative top ornament -->
+        <div class="mb-8 opacity-20 text-ember text-xs tracking-[0.5em] font-title hero-subtitle">⟡ ⟡ ⟡</div>
+
+        <!-- Title -->
+        <h1 class="hero-title font-title text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[0.15em] text-bone/95 leading-none">
+          VALMOR
+        </h1>
+
+        <!-- Decorative line -->
+        <div class="hero-line mt-6 mb-6 mx-auto"></div>
+
+        <!-- Subtitle -->
+        <p class="hero-subtitle font-title text-sm sm:text-base tracking-[0.25em] text-parchment/70 uppercase max-w-lg">
+          Un universo de fantasía oscura
+        </p>
+
+        <!-- CTA -->
+        <div class="mt-12 hero-subtitle">
+          <button onclick="navigateTo('characters')" class="btn-ember font-title text-xs tracking-[0.3em] uppercase px-10 py-3.5 bg-transparent" id="btn-explore">
+            Explorar
+          </button>
+        </div>
+
+        <!-- Scroll hint -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 hero-subtitle">
+          <span class="font-body text-[10px] tracking-[0.3em] text-parchment uppercase">Descender</span>
+          <div class="w-px h-8 bg-gradient-to-b from-ember/50 to-transparent animate-pulse"></div>
+        </div>
+      </div>
+
+      <!-- Lore teaser section -->
+      <div class="max-w-4xl mx-auto px-6 pb-24">
+        <div class="lore-divider mb-16">
+          <span>◆</span>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Teaser Card 1 -->
+          <div class="glass-card rounded-sm p-6 stagger-item" id="teaser-1">
+            <div class="font-title text-xs tracking-[0.2em] text-ember/80 uppercase mb-3">El Mundo</div>
+            <p class="text-sm text-bone/50 leading-relaxed font-light">
+              Un reino fracturado por una calamidad antigua. Las tierras de Valmor yacen bajo un cielo perpetuamente ceniciento, donde los ecos del pasado se niegan a desvanecerse.
+            </p>
+          </div>
+          <!-- Teaser Card 2 -->
+          <div class="glass-card rounded-sm p-6 stagger-item" id="teaser-2">
+            <div class="font-title text-xs tracking-[0.2em] text-ember/80 uppercase mb-3">Los Caídos</div>
+            <p class="text-sm text-bone/50 leading-relaxed font-light">
+              Guerreros, eruditos y errantes que alguna vez caminaron entre la luz. Ahora, cada uno lleva una marca que los ata a un destino que no eligieron.
+            </p>
+          </div>
+          <!-- Teaser Card 3 -->
+          <div class="glass-card rounded-sm p-6 stagger-item" id="teaser-3">
+            <div class="font-title text-xs tracking-[0.2em] text-ember/80 uppercase mb-3">Los Vestigios</div>
+            <p class="text-sm text-bone/50 leading-relaxed font-light">
+              Objetos dispersos por el mundo, cada uno con una historia grabada en su materia. Recogerlos es recordar lo que fue perdido.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== PERSONAJES ======================== -->
+    <section id="section-characters" class="section-panel">
+      <div class="pt-28 pb-24 px-6 max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <h2 class="font-title text-3xl sm:text-4xl tracking-[0.15em] text-bone/90 mb-4">PERSONAJES</h2>
+          <div class="w-16 h-px bg-gradient-to-r from-transparent via-ember to-transparent mx-auto mb-4"></div>
+          <p class="font-body text-sm text-parchment/50 tracking-wide max-w-md mx-auto">
+            Los que aún caminan entre cenizas. Cada alma porta una carga y un propósito olvidado.
+          </p>
+        </div>
+
+        <!-- Character Profile: Eira Vael -->
+        <div class="glass-card rounded-sm overflow-hidden border border-ember/20 shadow-2xl p-6 sm:p-8 lg:p-10 stagger-item" id="char-eira-vael">
+          
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            
+            <!-- Left Column: Portrait & Attributes -->
+            <div class="lg:col-span-5 flex flex-col items-center">
+              <div class="relative w-full aspect-square max-w-sm mx-auto rounded-sm overflow-hidden border border-ember/30 shadow-lg group">
+                <img 
+                  src="./eira-vael.jpg" 
+                  alt="Eira Vael - Guerrera de Ithos" 
+                  loading="eager"
+                  class="w-full h-full object-cover object-center filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                <!-- Subtle overlay vignettes -->
+                <div class="absolute inset-0 bg-gradient-to-t from-abyss via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                <div class="absolute bottom-4 left-4 right-4 text-center pointer-events-none">
+                  <span class="inline-block font-title text-[10px] tracking-[0.3em] uppercase px-3 py-1 bg-abyss/80 border border-ember/40 text-ember_pale rounded-sm backdrop-blur-sm">
+                    Guerrera de Ithos
+                  </span>
+                </div>
+              </div>
+
+              <!-- Lore Meta Info Table -->
+              <div class="w-full max-w-sm mt-6 border border-ember/15 bg-charcoal/40 rounded-sm p-4 text-xs space-y-2.5">
+                <div class="flex justify-between border-b border-ember/10 pb-2">
+                  <span class="text-parchment/60 font-title text-[10px] tracking-wider uppercase">Origen</span>
+                  <span class="text-ember_pale text-right font-medium">Ithos (Mundo Destruido)</span>
+                </div>
+                <div class="flex justify-between border-b border-ember/10 pb-2">
+                  <span class="text-parchment/60 font-title text-[10px] tracking-wider uppercase">Llegada a Caelune</span>
+                  <span class="text-bone/80 text-right">Ritual de Lyora & Velariel</span>
+                </div>
+                <div class="flex justify-between border-b border-ember/10 pb-2">
+                  <span class="text-parchment/60 font-title text-[10px] tracking-wider uppercase">Armamento</span>
+                  <span class="text-bone/80 text-right">Lanza ceremonial, escudo hoplita, espada</span>
+                </div>
+                <div class="flex justify-between border-b border-ember/10 pb-2">
+                  <span class="text-parchment/60 font-title text-[10px] tracking-wider uppercase">Armadura</span>
+                  <span class="text-bone/80 text-right">Bronce helénico & yelmo corintio</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-parchment/60 font-title text-[10px] tracking-wider uppercase">Estado</span>
+                  <span class="text-ember_glow text-right font-title text-[11px] tracking-wider">Túmulo Marcial en Paz</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Lore & Narrative Chapters -->
+            <div class="lg:col-span-7 space-y-8">
+              
+              <!-- Character Title Header -->
+              <div>
+                <div class="flex items-center gap-3 text-ember/60 text-xs font-title tracking-[0.25em] uppercase mb-1">
+                  <span>Vestigio Helénico</span>
+                  <span>◈</span>
+                  <span>Caelune</span>
+                </div>
+                <h3 class="font-title text-3xl sm:text-4xl tracking-[0.1em] text-ember_pale font-semibold">Eira Vael</h3>
+                <p class="text-xs sm:text-sm font-title tracking-[0.18em] text-ember/80 mt-1 italic">
+                  "Una advertencia viviente de lo que ocurre cuando la humanidad pacta con la oscuridad."
+                </p>
+                <div class="w-20 h-px bg-gradient-to-r from-ember via-ember_glow to-transparent mt-4"></div>
+              </div>
+
+              <!-- Chapter 1: Origen -->
+              <div class="space-y-2">
+                <h4 class="font-title text-xs tracking-[0.2em] text-ember uppercase flex items-center gap-2">
+                  <span class="text-ember_glow">✦</span> Origen y la Caída de Ithos
+                </h4>
+                <p class="text-xs sm:text-sm text-bone/70 leading-relaxed font-light text-justify">
+                  Eira Vael es una guerrera y superviviente proveniente de un mundo de estética helénica (<span class="text-ember_pale font-medium">Ithos</span>) que ya fue destruido por la entidad cósmica conocida como <span class="text-ember_pale font-medium">La Vigilia</span>. Tras el asesinato de su hermano mayor a manos del cultista Kassander, Eira asume su pesada armadura de bronce para proteger a los débiles. Posteriormente, es arrancada de su realidad agonizante y traída al continente de Caelune mediante un ritual interdimensional realizado por Lyora, la Primera Portadora, bajo la guía de la deidad Velariel. En Caelune, Eira funciona como una advertencia viviente de lo que ocurre cuando la humanidad pacta con la oscuridad.
+                </p>
+              </div>
+
+              <!-- Chapter 2: Apariencia y Personalidad -->
+              <div class="space-y-2 border-t border-ember/10 pt-5">
+                <h4 class="font-title text-xs tracking-[0.2em] text-ember uppercase flex items-center gap-2">
+                  <span class="text-ember_glow">✦</span> Apariencia y Personalidad
+                </h4>
+                <p class="text-xs sm:text-sm text-bone/70 leading-relaxed font-light text-justify">
+                  Es una joven de complexión atlética, con piel muy pálida, cabello largo y oscuro, y penetrantes ojos celestes claros. Su presencia visual es la de una guardiana antigua que enfrenta horrores cósmicos con tecnología de hace dos mil años: combate con una armadura de bronce que incluye un yelmo corintio, grevas, un pesado escudo hoplita abollado y una lanza larga ceremonial. Psicológicamente es reservada, disciplinada, poco expresiva y extremadamente resiliente. Habiendo presenciado el fin del mundo una vez, vive con el terror constante de verlo repetirse. A pesar de su exterior frío y severo, esconde una profunda humanidad sepultada bajo años de guerra y trauma.
+                </p>
+              </div>
+
+              <!-- Chapter 3: Vínculo con Lyora y su Tragedia -->
+              <div class="space-y-2 border-t border-ember/10 pt-5">
+                <h4 class="font-title text-xs tracking-[0.2em] text-ember uppercase flex items-center gap-2">
+                  <span class="text-ember_glow">✦</span> Vínculo con Lyora y su Tragedia
+                </h4>
+                <p class="text-xs sm:text-sm text-bone/70 leading-relaxed font-light text-justify">
+                  Eira dedica su vida a proteger a Lyora, quien se convierte en la única persona capaz de devolverle algo de paz. Para la guerrera, Lyora representa la inocencia, la esperanza y la posibilidad de salvar a Caelune. Lamentablemente, el destino de Eira está marcado por el fracaso. Durante una emboscada liderada por los mercenarios conocidos como Los Portadores de la Ceniza, Eira es herida de gravedad e inmovilizada con cadenas. En un acto que la destruye mentalmente, es obligada a mirar cómo las élites del reino y la sacerdotisa Talea sacrifican a Lyora en un altar de piedra. Esta pérdida quiebra la poca humanidad que Eira conservaba, transformándola en una vengadora implacable que eventualmente caza y empala a Talea con furia ciega.
+                </p>
+              </div>
+
+              <!-- Chapter 4: El Fin de su Guardia (Su Legado) -->
+              <div class="space-y-2 border-t border-ember/10 pt-5">
+                <h4 class="font-title text-xs tracking-[0.2em] text-ember uppercase flex items-center gap-2">
+                  <span class="text-ember_glow">✦</span> El Fin de su Guardia (Su Legado)
+                </h4>
+                <p class="text-xs sm:text-sm text-bone/70 leading-relaxed font-light text-justify">
+                  El arco de Eira concluye cuando se encuentra con el caballero veterano Theos Kyrios y Sitara, la nueva portadora Luminar. Al ver que el espíritu de Lyora acompaña a Sitara, Eira comprende que el legado sigue vivo. Para asegurarse de que el nuevo protector sea digno, Eira desafía a Theos a un duelo a muerte, obligándolo a demostrar que su fuerza y voluntad son inquebrantables. Tras ser derrotada por la pesada espada de Theos, Eira cae al suelo agonizando, pero encuentra una paz absoluta y esboza una sonrisa genuina al ver a Lyora arrodillarse para tomar su mano.
+                </p>
+                <div class="p-4 bg-ash/60 border-l-2 border-ember/60 mt-3 rounded-r-sm">
+                  <p class="text-xs text-bone/60 italic leading-relaxed">
+                    Su historia física termina con un profundo respeto marcial: Theos y Sitara entierran su cuerpo bajo un túmulo de piedras rústicas y clavan en la tierra su lanza, su escudo y su yelmo de bronce, creando un monumento silencioso para que la guerrera de la antigua era por fin pueda descansar.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== COLECCIÓN ======================== -->
+    <section id="section-collection" class="section-panel">
+      <div class="pt-28 pb-24 px-6 max-w-5xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <h2 class="font-title text-3xl sm:text-4xl tracking-[0.15em] text-bone/90 mb-4">COLECCIÓN</h2>
+          <div class="w-16 h-px bg-gradient-to-r from-transparent via-ember to-transparent mx-auto mb-4"></div>
+          <p class="font-body text-sm text-parchment/50 tracking-wide max-w-lg mx-auto">
+            Vestigios de una era desvanecida. Cada objeto guarda un fragmento de la verdad que el mundo olvidó.
+          </p>
+        </div>
+
+        <!-- Category filter -->
+        <div class="flex flex-wrap justify-center gap-4 mb-12">
+          <button onclick="filterCollection('all')" class="collection-filter active font-title text-[10px] tracking-[0.2em] uppercase px-5 py-2 border border-ember/25 text-ember/70 hover:border-ember hover:text-ember transition-all duration-300 rounded-sm bg-transparent" data-filter="all" id="filter-all">
+            Todo
+          </button>
+          <button onclick="filterCollection('arma')" class="collection-filter font-title text-[10px] tracking-[0.2em] uppercase px-5 py-2 border border-ember/10 text-parchment/40 hover:border-ember/30 hover:text-parchment/70 transition-all duration-300 rounded-sm bg-transparent" data-filter="arma" id="filter-arma">
+            Armas
+          </button>
+          <button onclick="filterCollection('anillo')" class="collection-filter font-title text-[10px] tracking-[0.2em] uppercase px-5 py-2 border border-ember/10 text-parchment/40 hover:border-ember/30 hover:text-parchment/70 transition-all duration-300 rounded-sm bg-transparent" data-filter="anillo" id="filter-anillo">
+            Anillos
+          </button>
+          <button onclick="filterCollection('reliquia')" class="collection-filter font-title text-[10px] tracking-[0.2em] uppercase px-5 py-2 border border-ember/10 text-parchment/40 hover:border-ember/30 hover:text-parchment/70 transition-all duration-300 rounded-sm bg-transparent" data-filter="reliquia" id="filter-reliquia">
+            Reliquias
+          </button>
+          <button onclick="filterCollection('consumible')" class="collection-filter font-title text-[10px] tracking-[0.2em] uppercase px-5 py-2 border border-ember/10 text-parchment/40 hover:border-ember/30 hover:text-parchment/70 transition-all duration-300 rounded-sm bg-transparent" data-filter="consumible" id="filter-consumible">
+            Consumibles
+          </button>
+        </div>
+
+        <!-- Collection Items -->
+        <div class="flex flex-col gap-2" id="collection-list">
+
+          <!-- Item 1 -->
+          <div class="collection-item glass-card rounded-sm stagger-item" data-category="arma" onclick="toggleLore(this)" id="item-1">
+            <div class="flex items-center gap-5 p-4">
+              <div class="icon-placeholder w-12 h-12 flex-shrink-0 rounded-sm"></div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-title text-sm tracking-[0.1em] text-ember_pale">Espada del Juramento Roto</h3>
+                <p class="text-xs text-parchment/40 mt-0.5">Arma · Espada recta</p>
+              </div>
+              <div class="text-ember/30 text-xs font-title tracking-widest flex-shrink-0">◇</div>
+            </div>
+            <div class="lore-detail px-4 pb-4 pl-[4.75rem]">
+              <div class="border-t border-ember/8 pt-3">
+                <p class="text-xs text-bone/40 leading-relaxed font-light">
+                  Forjada para sellar un pacto entre dos reinos que ya no existen. La hoja lleva grabada una promesa en un idioma muerto. Quien la empuña siente el peso de un juramento que no le pertenece, pero que de algún modo lo reclama. Se dice que no puede ser soltada voluntariamente una vez desenvainada.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="collection-item glass-card rounded-sm stagger-item" data-category="anillo" onclick="toggleLore(this)" id="item-2">
+            <div class="flex items-center gap-5 p-4">
+              <div class="icon-placeholder w-12 h-12 flex-shrink-0 rounded-sm"></div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-title text-sm tracking-[0.1em] text-ember_pale">Anillo del Eco Perpetuo</h3>
+                <p class="text-xs text-parchment/40 mt-0.5">Anillo · Accesorio arcano</p>
+              </div>
+              <div class="text-ember/30 text-xs font-title tracking-widest flex-shrink-0">◇</div>
+            </div>
+            <div class="lore-detail px-4 pb-4 pl-[4.75rem]">
+              <div class="border-t border-ember/8 pt-3">
+                <p class="text-xs text-bone/40 leading-relaxed font-light">
+                  Un aro de metal oscuro que resuena con una frecuencia inaudible. Su portador puede escuchar los últimos pensamientos de los caídos que murieron en el lugar donde se encuentra. Es una maldición disfrazada de don: el conocimiento que otorga erosiona la cordura como el agua erosiona la piedra.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="collection-item glass-card rounded-sm stagger-item" data-category="reliquia" onclick="toggleLore(this)" id="item-3">
+            <div class="flex items-center gap-5 p-4">
+              <div class="icon-placeholder w-12 h-12 flex-shrink-0 rounded-sm"></div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-title text-sm tracking-[0.1em] text-ember_pale">Fragmento de la Primera Llama</h3>
+                <p class="text-xs text-parchment/40 mt-0.5">Reliquia · Objeto clave</p>
+              </div>
+              <div class="text-ember/30 text-xs font-title tracking-widest flex-shrink-0">◇</div>
+            </div>
+            <div class="lore-detail px-4 pb-4 pl-[4.75rem]">
+              <div class="border-t border-ember/8 pt-3">
+                <p class="text-xs text-bone/40 leading-relaxed font-light">
+                  Un cristal incandescente que nunca se enfría. Contiene la esencia de la hoguera primordial que dio vida al mundo antes de la Calamidad. Los eruditos creen que reunir todos los fragmentos podría reignir la llama original, o destruir lo que queda del mundo por completo.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="collection-item glass-card rounded-sm stagger-item" data-category="consumible" onclick="toggleLore(this)" id="item-4">
+            <div class="flex items-center gap-5 p-4">
+              <div class="icon-placeholder w-12 h-12 flex-shrink-0 rounded-sm"></div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-title text-sm tracking-[0.1em] text-ember_pale">Ceniza de Hueso Sacro</h3>
+                <p class="text-xs text-parchment/40 mt-0.5">Consumible · Material restaurador</p>
+              </div>
+              <div class="text-ember/30 text-xs font-title tracking-widest flex-shrink-0">◇</div>
+            </div>
+            <div class="lore-detail px-4 pb-4 pl-[4.75rem]">
+              <div class="border-t border-ember/8 pt-3">
+                <p class="text-xs text-bone/40 leading-relaxed font-light">
+                  Polvo gris extraído de los restos de un santo olvidado. Al ser inhalado, restaura brevemente la vitalidad, pero el usuario experimenta fragmentos de la memoria del difunto. Algunos se vuelven adictos no por la curación, sino por los recuerdos ajenos que les permiten escapar de los propios.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="collection-item glass-card rounded-sm stagger-item" data-category="arma" onclick="toggleLore(this)" id="item-5">
+            <div class="flex items-center gap-5 p-4">
+              <div class="icon-placeholder w-12 h-12 flex-shrink-0 rounded-sm"></div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-title text-sm tracking-[0.1em] text-ember_pale">Arco del Crepúsculo Eterno</h3>
+                <p class="text-xs text-parchment/40 mt-0.5">Arma · Arco largo</p>
+              </div>
+              <div class="text-ember/30 text-xs font-title tracking-widest flex-shrink-0">◇</div>
+            </div>
+            <div class="lore-detail px-4 pb-4 pl-[4.75rem]">
+              <div class="border-t border-ember/8 pt-3">
+                <p class="text-xs text-bone/40 leading-relaxed font-light">
+                  Tallado de la madera de un árbol que creció en el punto exacto donde la luz y la sombra se encuentran. Sus flechas no perforan la carne; perforan la voluntad. Los alcanzados por ellas no mueren: simplemente dejan de desear vivir.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="collection-item glass-card rounded-sm stagger-item" data-category="anillo" onclick="toggleLore(this)" id="item-6">
+            <div class="flex items-center gap-5 p-4">
+              <div class="icon-placeholder w-12 h-12 flex-shrink-0 rounded-sm"></div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-title text-sm tracking-[0.1em] text-ember_pale">Sello del Rey Sin Nombre</h3>
+                <p class="text-xs text-parchment/40 mt-0.5">Anillo · Sello real</p>
+              </div>
+              <div class="text-ember/30 text-xs font-title tracking-widest flex-shrink-0">◇</div>
+            </div>
+            <div class="lore-detail px-4 pb-4 pl-[4.75rem]">
+              <div class="border-t border-ember/8 pt-3">
+                <p class="text-xs text-bone/40 leading-relaxed font-light">
+                  El anillo de un monarca cuyo nombre fue borrado de toda crónica y toda piedra. Portarlo otorga una autoridad inexplicable sobre las sombras, pero atrae la atención de entidades que habitan en los rincones olvidados del mundo. El metal está tibio al tacto, como si aún recordara el dedo que lo portó.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 7 -->
+          <div class="collection-item glass-card rounded-sm stagger-item" data-category="reliquia" onclick="toggleLore(this)" id="item-7">
+            <div class="flex items-center gap-5 p-4">
+              <div class="icon-placeholder w-12 h-12 flex-shrink-0 rounded-sm"></div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-title text-sm tracking-[0.1em] text-ember_pale">Máscara del Oráculo Mudo</h3>
+                <p class="text-xs text-parchment/40 mt-0.5">Reliquia · Máscara ceremonial</p>
+              </div>
+              <div class="text-ember/30 text-xs font-title tracking-widest flex-shrink-0">◇</div>
+            </div>
+            <div class="lore-detail px-4 pb-4 pl-[4.75rem]">
+              <div class="border-t border-ember/8 pt-3">
+                <p class="text-xs text-bone/40 leading-relaxed font-light">
+                  Una máscara de porcelana sin abertura para la boca. Perteneció a un vidente que se arrancó la lengua para no revelar lo que había visto. Quien la usa puede percibir verdades ocultas, pero pierde la capacidad de hablar mientras la porte. La verdad, al parecer, exige silencio.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 8 -->
+          <div class="collection-item glass-card rounded-sm stagger-item" data-category="consumible" onclick="toggleLore(this)" id="item-8">
+            <div class="flex items-center gap-5 p-4">
+              <div class="icon-placeholder w-12 h-12 flex-shrink-0 rounded-sm"></div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-title text-sm tracking-[0.1em] text-ember_pale">Elixir de Sombra Líquida</h3>
+                <p class="text-xs text-parchment/40 mt-0.5">Consumible · Poción oscura</p>
+              </div>
+              <div class="text-ember/30 text-xs font-title tracking-widest flex-shrink-0">◇</div>
+            </div>
+            <div class="lore-detail px-4 pb-4 pl-[4.75rem]">
+              <div class="border-t border-ember/8 pt-3">
+                <p class="text-xs text-bone/40 leading-relaxed font-light">
+                  Un líquido negro y denso embotellado en cristal opaco. Al beberlo, el usuario se vuelve invisible a la luz, existiendo momentáneamente solo en la oscuridad. El efecto dura apenas unos instantes, pero quienes lo usan con frecuencia reportan que la oscuridad empieza a sentirse como un hogar.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <footer class="relative z-10 border-t border-ember/35 py-8 px-6 text-center bg-abyss/80 backdrop-blur-sm">
+    <div class="w-24 h-px bg-gradient-to-r from-transparent via-ember to-transparent mx-auto mb-3"></div>
+    <p class="font-title text-[10px] sm:text-xs tracking-[0.35em] text-ember_pale/70 uppercase">Valmor · Belleza en la ruina</p>
+  </footer>
+
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT -->
+  <!-- ============================================================ -->
+  <script>
+    // ============ NAVIGATION ============
+    let currentSection = 'home';
+
+    function navigateTo(section) {
+      if (section === currentSection) return;
+
+      // Hide current, show new
+      document.getElementById(`section-${currentSection}`).classList.remove('active');
+      const newEl = document.getElementById(`section-${section}`);
+      newEl.classList.remove('active');
+      void newEl.offsetWidth; // reset animation
+      newEl.classList.add('active');
+
+      // Scroll to top
+      window.scrollTo(0, 0);
+
+      // Update desktop nav links
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.nav === section);
+      });
+
+      // Update mobile bottom bar
+      document.querySelectorAll('#mobile-bar button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.nav === section);
+      });
+
+      currentSection = section;
+
+      // Trigger stagger animations
+      setTimeout(() => revealStaggerItems(newEl), 100);
+    }
+
+    // ============ COLLECTION FILTER ============
+    function filterCollection(category) {
+      const items = document.querySelectorAll('.collection-item');
+      items.forEach(item => {
+        if (category === 'all' || item.dataset.category === category) {
+          item.style.display = '';
+          // Re-trigger animation
+          item.classList.remove('revealed');
+          setTimeout(() => item.classList.add('revealed'), 50);
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // Update filter button styles
+      document.querySelectorAll('.collection-filter').forEach(btn => {
+        if (btn.dataset.filter === category) {
+          btn.classList.add('active');
+          btn.style.borderColor = 'rgba(200, 135, 59, 0.4)';
+          btn.style.color = 'rgba(200, 135, 59, 0.85)';
+        } else {
+          btn.classList.remove('active');
+          btn.style.borderColor = 'rgba(200, 135, 59, 0.1)';
+          btn.style.color = 'rgba(158, 151, 135, 0.4)';
+        }
+      });
+    }
+
+    // ============ LORE EXPAND/COLLAPSE ============
+    function toggleLore(el) {
+      // Close others
+      document.querySelectorAll('.collection-item.expanded').forEach(item => {
+        if (item !== el) item.classList.remove('expanded');
+      });
+      el.classList.toggle('expanded');
+    }
+
+    // ============ STAGGER REVEAL ANIMATION ============
+    function revealStaggerItems(container) {
+      const items = container.querySelectorAll('.stagger-item');
+      items.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('revealed');
+        }, index * 80);
+      });
+    }
+
+    // ============ NAV BACKGROUND ON SCROLL ============
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        nav.style.background = 'rgba(10, 10, 11, 0.9)';
+        nav.style.backdropFilter = 'blur(12px)';
+        nav.style.borderBottom = '1px solid rgba(200, 135, 59, 0.08)';
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = 'none';
+        nav.style.borderBottom = '1px solid transparent';
+      }
+    });
+
+    // ============ EMBER PARTICLE SYSTEM ============
+    const canvas = document.getElementById('ember-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const PARTICLE_COUNT = 35;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + Math.random() * 100;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedY = -(Math.random() * 0.4 + 0.1);
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.3 + 0.05;
+        this.fadeSpeed = Math.random() * 0.001 + 0.0005;
+        this.wobble = Math.random() * Math.PI * 2;
+        this.wobbleSpeed = Math.random() * 0.02 + 0.005;
+      }
+      update() {
+        this.y += this.speedY;
+        this.wobble += this.wobbleSpeed;
+        this.x += this.speedX + Math.sin(this.wobble) * 0.2;
+        this.opacity -= this.fadeSpeed;
+        if (this.opacity <= 0 || this.y < -20) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 135, 59, ${this.opacity})`;
+        ctx.fill();
+
+        // Glow
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 135, 59, ${this.opacity * 0.15})`;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const p = new Particle();
+        p.y = Math.random() * canvas.height;
+        particles.push(p);
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+    });
+
+    resizeCanvas();
+    initParticles();
+    animateParticles();
+
+    // ============ HASH ROUTING SUPPORT ============
+    function handleHash() {
+      const hash = window.location.hash.toLowerCase().replace('#', '');
+      if (hash === 'characters' || hash === 'personajes') {
+        navigateTo('characters');
+      } else if (hash === 'collection' || hash === 'coleccion') {
+        navigateTo('collection');
+      } else if (hash === 'home' || hash === 'inicio') {
+        navigateTo('home');
+      }
+    }
+
+    window.addEventListener('hashchange', handleHash);
+
+    // ============ INITIAL STAGGER ============
+    window.addEventListener('DOMContentLoaded', () => {
+      handleHash();
+      const currentEl = document.getElementById(`section-${currentSection}`);
+      setTimeout(() => revealStaggerItems(currentEl), 600);
+    });
+  </script>
+
+</body>
+</html>
