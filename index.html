@@ -312,11 +312,18 @@
   <!-- NAVIGATION -->
   <!-- ============================================================ -->
   <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
-    <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
-      <!-- Logo -->
-      <button onclick="navigateTo('home')" class="flex items-center group transition-all duration-300" id="nav-logo" aria-label="Valmor Inicio">
+    <div class="max-w-6xl mx-auto px-6 py-4 sm:py-5 flex items-center justify-between relative">
+      <!-- Desktop Logo (Emblem on left for md+) -->
+      <button onclick="navigateTo('home')" class="hidden md:flex items-center group transition-all duration-300" id="nav-logo" aria-label="Valmor Inicio">
         <img src="./logo.png" alt="Valmor Logo" class="h-10 w-auto object-contain filter drop-shadow-[0_0_8px_rgba(200,135,59,0.35)] group-hover:drop-shadow-[0_0_14px_rgba(230,168,77,0.7)] group-hover:scale-105 transition-all duration-300" />
       </button>
+
+      <!-- Mobile Centered Wordmark Logo (Hidden on Home, visible on all other sections) -->
+      <div class="md:hidden w-full flex justify-center items-center pointer-events-auto">
+        <button onclick="navigateTo('home')" id="mobile-top-logo" class="hidden items-center group transition-all duration-300 active:scale-95 py-1" aria-label="Valmor Inicio">
+          <img src="./valmor-hero-logo.png" alt="VALMOR" class="h-7 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(200,135,59,0.35)]" />
+        </button>
+      </div>
 
       <!-- Desktop Nav -->
       <div class="hidden md:flex items-center gap-6 lg:gap-8">
@@ -1278,6 +1285,18 @@
       document.querySelectorAll('#mobile-bar button').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.nav === section);
       });
+
+      // Update mobile top logo visibility (hidden on 'home', visible on other sections)
+      const mobileTopLogo = document.getElementById('mobile-top-logo');
+      if (mobileTopLogo) {
+        if (section === 'home') {
+          mobileTopLogo.classList.add('hidden');
+          mobileTopLogo.classList.remove('flex');
+        } else {
+          mobileTopLogo.classList.remove('hidden');
+          mobileTopLogo.classList.add('flex');
+        }
+      }
 
       currentSection = section;
 
