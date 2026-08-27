@@ -313,15 +313,15 @@
   <!-- ============================================================ -->
   <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
     <div class="max-w-6xl mx-auto px-6 py-4 sm:py-5 flex items-center justify-between relative">
-      <!-- Desktop Logo (Emblem on left for md+) -->
-      <button onclick="navigateTo('home')" class="hidden md:flex items-center group transition-all duration-300" id="nav-logo" aria-label="Valmor Inicio">
-        <img src="./logo.png" alt="Valmor Logo" class="h-10 w-auto object-contain filter drop-shadow-[0_0_8px_rgba(200,135,59,0.35)] group-hover:drop-shadow-[0_0_14px_rgba(230,168,77,0.7)] group-hover:scale-105 transition-all duration-300" />
+      <!-- Desktop Logo (Text on left for md+) -->
+      <button onclick="navigateTo('home')" class="hidden md:block font-title text-xl tracking-[0.3em] text-ember hover:text-ember_glow transition-colors duration-300" id="nav-logo" aria-label="Valmor Inicio">
+        VALMOR
       </button>
 
-      <!-- Mobile Centered Wordmark Logo (Hidden on Home, visible on all other sections) -->
+      <!-- Mobile Centered Text Logo (Hidden on Home, visible on all other sections) -->
       <div class="md:hidden w-full flex justify-center items-center pointer-events-auto">
-        <button onclick="navigateTo('home')" id="mobile-top-logo" class="hidden items-center group transition-all duration-300 active:scale-95 py-1" aria-label="Valmor Inicio">
-          <img src="./valmor-hero-logo.png" alt="VALMOR" class="h-7 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(200,135,59,0.35)]" />
+        <button onclick="navigateTo('home')" id="mobile-top-logo" class="hidden items-center font-title text-lg tracking-[0.3em] text-ember hover:text-ember_glow transition-all duration-300 active:scale-95 py-1" aria-label="Valmor Inicio">
+          VALMOR
         </button>
       </div>
 
@@ -369,14 +369,10 @@
         <!-- Decorative top ornament -->
         <div class="mb-8 opacity-20 text-ember text-xs tracking-[0.5em] font-title hero-subtitle">⟡ ⟡ ⟡</div>
 
-        <!-- Hero Wordmark Logo -->
-        <div class="hero-title flex justify-center items-center px-4">
-          <img 
-            src="./valmor-hero-logo.png" 
-            alt="VALMOR" 
-            class="w-64 sm:w-72 md:w-80 lg:w-[320px] max-w-full h-auto object-contain filter drop-shadow-[0_0_18px_rgba(200,135,59,0.3)]" 
-          />
-        </div>
+        <!-- Title -->
+        <h1 class="hero-title font-title text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[0.15em] text-bone/95 leading-none">
+          VALMOR
+        </h1>
 
         <!-- Decorative line -->
         <div class="hero-line mt-6 mb-6 mx-auto"></div>
