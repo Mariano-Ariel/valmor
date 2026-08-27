@@ -12,6 +12,9 @@
     tailwind.config = {
       theme: {
         extend: {
+          screens: {
+            'xs': '400px',
+          },
           colors: {
             abyss: '#0a0a0b',
             ash: '#1a1a1d',
@@ -373,9 +376,14 @@
         <!-- Decorative top ornament -->
         <div class="mb-8 opacity-20 text-ember text-xs tracking-[0.5em] font-title hero-subtitle">⟡ ⟡ ⟡</div>
 
-        <!-- Title -->
-        <h1 class="hero-title font-title text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[0.15em] text-bone/95 leading-none">
-          VALMOR
+        <!-- Title / Logo -->
+        <h1 class="hero-title flex justify-center items-center w-full">
+          <img 
+            src="./valmor-logo.png" 
+            alt="VALMOR" 
+            class="w-full h-auto max-w-[320px] xs:max-w-[400px] sm:max-w-[580px] md:max-w-[750px] lg:max-w-[900px] xl:max-w-[1020px] object-contain select-none filter drop-shadow-[0_4px_20px_rgba(178,150,97,0.15)]"
+            loading="eager"
+          />
         </h1>
 
         <!-- Decorative line -->
