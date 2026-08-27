@@ -13,10 +13,10 @@
       theme: {
         extend: {
           colors: {
-            abyss: '#121926',
-            ash: '#1a2332',
-            charcoal: '#222d40',
-            slate_dark: '#2c3950',
+            abyss: '#0a0a0b',
+            ash: '#1a1a1d',
+            charcoal: '#232328',
+            slate_dark: '#2e2e34',
             ember: '#B29661',
             ember_dim: '#8d7549',
             ember_glow: '#F0E0AC',
@@ -46,7 +46,7 @@
       font-family: 'Metamorphus', serif;
     }
     body {
-      background-color: #121926;
+      background-color: #0a0a0b;
       overflow-x: hidden;
     }
 
@@ -64,7 +64,7 @@
 
     /* ========== CUSTOM SCROLLBAR ========== */
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #121926; }
+    ::-webkit-scrollbar-track { background: #0a0a0b; }
     ::-webkit-scrollbar-thumb { background: #8d7549; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #B29661; }
 
@@ -83,7 +83,7 @@
 
     /* ========== GLASSMORPHISM CARD ========== */
     .glass-card {
-      background: rgba(26, 35, 50, 0.7);
+      background: rgba(26, 26, 29, 0.65);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(178, 150, 97, 0.18);
@@ -153,7 +153,7 @@
 
     /* ========== IMAGE PLACEHOLDER ========== */
     .img-placeholder {
-      background: linear-gradient(145deg, #1a2332 0%, #222d40 50%, #1a2332 100%);
+      background: linear-gradient(145deg, #1a1a1d 0%, #232328 50%, #1a1a1d 100%);
       position: relative;
       overflow: hidden;
     }
@@ -166,7 +166,7 @@
 
     /* ========== ICON PLACEHOLDER (collection) ========== */
     .icon-placeholder {
-      background: linear-gradient(145deg, #222d40, #2c3950);
+      background: linear-gradient(145deg, #232328, #2e2e34);
       border: 1px solid rgba(178, 150, 97, 0.2);
       position: relative;
     }
@@ -244,7 +244,7 @@
       left: 0;
       right: 0;
       z-index: 50;
-      background: rgba(18, 25, 38, 0.95);
+      background: rgba(10, 10, 11, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid rgba(178, 150, 97, 0.15);
@@ -1355,7 +1355,7 @@
     const nav = document.getElementById('main-nav');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 50) {
-        nav.style.background = 'rgba(18, 25, 38, 0.92)';
+        nav.style.background = 'rgba(10, 10, 11, 0.9)';
         nav.style.backdropFilter = 'blur(12px)';
         nav.style.borderBottom = '1px solid rgba(178, 150, 97, 0.12)';
       } else {
