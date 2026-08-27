@@ -13,20 +13,22 @@
       theme: {
         extend: {
           colors: {
-            abyss: '#0a0a0b',
-            ash: '#1a1a1d',
-            charcoal: '#232328',
-            slate_dark: '#2e2e34',
-            ember: '#c8873b',
-            ember_dim: '#a06a2a',
-            ember_glow: '#e6a84d',
-            ember_pale: '#f5d9a8',
-            bone: '#c9c2b3',
-            parchment: '#9e9787',
+            abyss: '#121926',
+            ash: '#1a2332',
+            charcoal: '#222d40',
+            slate_dark: '#2c3950',
+            ember: '#B29661',
+            ember_dim: '#8d7549',
+            ember_glow: '#F0E0AC',
+            ember_pale: '#F0E0AC',
+            bone: '#e2d8c3',
+            parchment: '#B29661',
           },
           fontFamily: {
-            title: ['Cinzel', 'serif'],
-            body: ['Inter', 'sans-serif'],
+            title: ['Metamorphus', 'serif'],
+            body: ['Metamorphus', 'serif'],
+            sans: ['Metamorphus', 'serif'],
+            serif: ['Metamorphus', 'serif'],
           },
         },
       },
@@ -36,13 +38,15 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Metamorphus&display=swap" rel="stylesheet" />
 
   <style>
     /* ========== BASE & TEXTURE ========== */
+    body, button, input, textarea, select {
+      font-family: 'Metamorphus', serif;
+    }
     body {
-      background-color: #0a0a0b;
-      font-family: 'Inter', sans-serif;
+      background-color: #121926;
       overflow-x: hidden;
     }
 
@@ -60,9 +64,9 @@
 
     /* ========== CUSTOM SCROLLBAR ========== */
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0a0a0b; }
-    ::-webkit-scrollbar-thumb { background: #a06a2a; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #c8873b; }
+    ::-webkit-scrollbar-track { background: #121926; }
+    ::-webkit-scrollbar-thumb { background: #8d7549; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #B29661; }
 
     /* ========== SECTION TRANSITIONS ========== */
     .section-panel {
@@ -79,22 +83,22 @@
 
     /* ========== GLASSMORPHISM CARD ========== */
     .glass-card {
-      background: rgba(26, 26, 29, 0.65);
+      background: rgba(26, 35, 50, 0.7);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(200, 135, 59, 0.12);
+      border: 1px solid rgba(178, 150, 97, 0.18);
       transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.35s ease;
     }
     .glass-card:hover {
-      border-color: rgba(200, 135, 59, 0.45);
-      box-shadow: 0 0 20px rgba(200, 135, 59, 0.08), inset 0 0 30px rgba(200, 135, 59, 0.03);
+      border-color: rgba(178, 150, 97, 0.55);
+      box-shadow: 0 0 20px rgba(178, 150, 97, 0.12), inset 0 0 30px rgba(178, 150, 97, 0.04);
       transform: translateY(-2px);
     }
 
     /* ========== NAV LINK STYLE ========== */
     .nav-link {
       position: relative;
-      color: #9e9787;
+      color: #B29661;
       transition: color 0.35s ease;
       letter-spacing: 0.15em;
     }
@@ -105,12 +109,12 @@
       left: 50%;
       width: 0;
       height: 1px;
-      background: #c8873b;
+      background: #B29661;
       transition: width 0.35s ease, left 0.35s ease;
     }
     .nav-link:hover,
     .nav-link.active {
-      color: #e6a84d;
+      color: #F0E0AC;
     }
     .nav-link:hover::after,
     .nav-link.active::after {
@@ -122,7 +126,7 @@
     .hero-line {
       width: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, #c8873b, transparent);
+      background: linear-gradient(90deg, transparent, #B29661, transparent);
       animation: line-expand 2s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards;
     }
     @keyframes line-expand {
@@ -149,7 +153,7 @@
 
     /* ========== IMAGE PLACEHOLDER ========== */
     .img-placeholder {
-      background: linear-gradient(145deg, #1a1a1d 0%, #232328 50%, #1a1a1d 100%);
+      background: linear-gradient(145deg, #1a2332 0%, #222d40 50%, #1a2332 100%);
       position: relative;
       overflow: hidden;
     }
@@ -157,13 +161,13 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, transparent 40%, rgba(200, 135, 59, 0.04) 50%, transparent 60%);
+      background: linear-gradient(135deg, transparent 40%, rgba(178, 150, 97, 0.05) 50%, transparent 60%);
     }
 
     /* ========== ICON PLACEHOLDER (collection) ========== */
     .icon-placeholder {
-      background: linear-gradient(145deg, #232328, #2e2e34);
-      border: 1px solid rgba(200, 135, 59, 0.15);
+      background: linear-gradient(145deg, #222d40, #2c3950);
+      border: 1px solid rgba(178, 150, 97, 0.2);
       position: relative;
     }
     .icon-placeholder::after {
@@ -173,15 +177,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: rgba(200, 135, 59, 0.25);
+      color: rgba(178, 150, 97, 0.35);
       font-size: 1.1rem;
     }
 
     /* ========== ENTER BUTTON ========== */
     .btn-ember {
       position: relative;
-      border: 1px solid rgba(200, 135, 59, 0.35);
-      color: #c8873b;
+      border: 1px solid rgba(178, 150, 97, 0.45);
+      color: #B29661;
       overflow: hidden;
       transition: all 0.4s ease;
     }
@@ -189,14 +193,14 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(200, 135, 59, 0.08), transparent);
+      background: linear-gradient(90deg, transparent, rgba(240, 224, 172, 0.1), transparent);
       transform: translateX(-100%);
       transition: transform 0.6s ease;
     }
     .btn-ember:hover {
-      border-color: #e6a84d;
-      color: #e6a84d;
-      box-shadow: 0 0 24px rgba(200, 135, 59, 0.12);
+      border-color: #F0E0AC;
+      color: #F0E0AC;
+      box-shadow: 0 0 24px rgba(240, 224, 172, 0.2);
     }
     .btn-ember:hover::before {
       transform: translateX(100%);
@@ -207,11 +211,11 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      opacity: 0.3;
+      opacity: 0.4;
     }
     .lore-divider span {
       flex-shrink: 0;
-      color: #c8873b;
+      color: #B29661;
       font-size: 0.55rem;
     }
     .lore-divider::before,
@@ -219,7 +223,7 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: linear-gradient(90deg, transparent, #c8873b, transparent);
+      background: linear-gradient(90deg, transparent, #B29661, transparent);
     }
 
     /* ========== STAGGER ANIMATION ========== */
@@ -240,10 +244,10 @@
       left: 0;
       right: 0;
       z-index: 50;
-      background: rgba(10, 10, 11, 0.92);
+      background: rgba(18, 25, 38, 0.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-top: 1px solid rgba(200, 135, 59, 0.1);
+      border-top: 1px solid rgba(178, 150, 97, 0.15);
       padding: 10px 0 max(10px, env(safe-area-inset-bottom));
     }
     .mobile-bottom-bar button {
@@ -252,15 +256,15 @@
       align-items: center;
       justify-content: center;
       padding: 12px 0;
-      color: #9e9787;
+      color: #B29661;
       transition: all 0.3s ease;
       background: none;
       border: none;
       cursor: pointer;
     }
     .mobile-bottom-bar button.active {
-      color: #e6a84d;
-      filter: drop-shadow(0 0 8px rgba(230, 168, 77, 0.6));
+      color: #F0E0AC;
+      filter: drop-shadow(0 0 8px rgba(240, 224, 172, 0.6));
     }
     .mobile-bottom-bar button .tab-icon-svg {
       width: 20px;
@@ -858,7 +862,7 @@
                   type="text" 
                   id="rune-input" 
                   placeholder="Introduce una runa (ej. ITHOS, VELARIEL, CENIZA)..."
-                  class="w-full bg-transparent border-b border-ember/30 py-3.5 px-3 text-sm font-title tracking-[0.2em] text-ember_pale placeholder-parchment/30 focus:outline-none focus:border-ember focus:shadow-[0_4px_16px_rgba(200,135,59,0.25)] transition-all duration-300 uppercase"
+                  class="w-full bg-transparent border-b border-ember/30 py-3.5 px-3 text-sm font-title tracking-[0.2em] text-ember_pale placeholder-parchment/30 focus:outline-none focus:border-ember focus:shadow-[0_4px_16px_rgba(178,150,97,0.25)] transition-all duration-300 uppercase"
                   autocomplete="off"
                 />
               </div>
@@ -1018,7 +1022,7 @@
             <!-- Beacon 1: Bosque de Lýndareth (Top Left: 19%, 23%) -->
             <div class="absolute top-[23%] left-[19%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('lyndareth')">
               <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse"></div>
-              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(240,224,172,0.8)] group-hover:scale-125 transition-transform duration-300">
                 <span class="text-xs">🔥</span>
               </div>
               <!-- Tooltip -->
@@ -1037,7 +1041,7 @@
             <!-- Beacon 2: Cumbres de Thar-Valen (Top Center: 53%, 31%) -->
             <div class="absolute top-[31%] left-[53%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('tharvalen')">
               <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse" style="animation-delay: 0.4s;"></div>
-              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(240,224,172,0.8)] group-hover:scale-125 transition-transform duration-300">
                 <span class="text-xs">🔥</span>
               </div>
               <!-- Tooltip -->
@@ -1056,7 +1060,7 @@
             <!-- Beacon 3: Lago Aelyrion (Mid Left: 26%, 51%) -->
             <div class="absolute top-[51%] left-[26%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('aelyrion')">
               <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse" style="animation-delay: 0.8s;"></div>
-              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(240,224,172,0.8)] group-hover:scale-125 transition-transform duration-300">
                 <span class="text-xs">🔥</span>
               </div>
               <!-- Tooltip -->
@@ -1075,7 +1079,7 @@
             <!-- Beacon 4: Arenas de Khar-Zún (Mid Right: 74%, 52%) -->
             <div class="absolute top-[52%] left-[74%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('kharzun')">
               <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse" style="animation-delay: 1.2s;"></div>
-              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(240,224,172,0.8)] group-hover:scale-125 transition-transform duration-300">
                 <span class="text-xs">🔥</span>
               </div>
               <!-- Tooltip -->
@@ -1094,7 +1098,7 @@
             <!-- Beacon 5: Ruinas de Valmor (Bottom Left: 19%, 75%) -->
             <div class="absolute top-[75%] left-[19%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('valmor')">
               <div class="absolute -inset-3.5 bg-ember/40 rounded-full blur-md animate-pulse" style="animation-delay: 1.6s;"></div>
-              <div class="relative w-8 h-8 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_20px_rgba(230,168,77,0.9)] group-hover:scale-125 transition-transform duration-300">
+              <div class="relative w-8 h-8 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_20px_rgba(240,224,172,0.9)] group-hover:scale-125 transition-transform duration-300">
                 <span class="text-sm">🔥</span>
               </div>
               <!-- Tooltip -->
@@ -1113,7 +1117,7 @@
             <!-- Beacon 6: Mar de las Sombras (Bottom Right: 69%, 82%) -->
             <div class="absolute top-[82%] left-[69%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('sombras')">
               <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse" style="animation-delay: 2.0s;"></div>
-              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(240,224,172,0.8)] group-hover:scale-125 transition-transform duration-300">
                 <span class="text-xs">🔥</span>
               </div>
               <!-- Tooltip -->
@@ -1173,7 +1177,7 @@
                   id="contact-name" 
                   required
                   placeholder="Ej. Erudito de Ithos"
-                  class="w-full bg-charcoal/40 border border-ember/20 focus:border-ember focus:shadow-[0_0_12px_rgba(200,135,59,0.2)] rounded-sm py-3 px-4 text-xs font-title tracking-wider text-bone/90 placeholder-parchment/30 focus:outline-none transition-all duration-300"
+                  class="w-full bg-charcoal/40 border border-ember/20 focus:border-ember focus:shadow-[0_0_12px_rgba(178,150,97,0.2)] rounded-sm py-3 px-4 text-xs font-title tracking-wider text-bone/90 placeholder-parchment/30 focus:outline-none transition-all duration-300"
                 />
               </div>
               <div class="space-y-2">
@@ -1185,7 +1189,7 @@
                   id="contact-email" 
                   required
                   placeholder="tu@dominio.com"
-                  class="w-full bg-charcoal/40 border border-ember/20 focus:border-ember focus:shadow-[0_0_12px_rgba(200,135,59,0.2)] rounded-sm py-3 px-4 text-xs font-title tracking-wider text-bone/90 placeholder-parchment/30 focus:outline-none transition-all duration-300"
+                  class="w-full bg-charcoal/40 border border-ember/20 focus:border-ember focus:shadow-[0_0_12px_rgba(178,150,97,0.2)] rounded-sm py-3 px-4 text-xs font-title tracking-wider text-bone/90 placeholder-parchment/30 focus:outline-none transition-all duration-300"
                 />
               </div>
             </div>
@@ -1199,7 +1203,7 @@
                 rows="5" 
                 required
                 placeholder="Escribe tu mensaje para las tierras de Valmor..."
-                class="w-full bg-charcoal/40 border border-ember/20 focus:border-ember focus:shadow-[0_0_12px_rgba(200,135,59,0.2)] rounded-sm py-3 px-4 text-xs font-body tracking-wide text-bone/90 placeholder-parchment/30 focus:outline-none transition-all duration-300 resize-none leading-relaxed"
+                class="w-full bg-charcoal/40 border border-ember/20 focus:border-ember focus:shadow-[0_0_12px_rgba(178,150,97,0.2)] rounded-sm py-3 px-4 text-xs font-body tracking-wide text-bone/90 placeholder-parchment/30 focus:outline-none transition-all duration-300 resize-none leading-relaxed"
               ></textarea>
             </div>
 
@@ -1230,12 +1234,12 @@
 
           <div class="flex justify-center items-center gap-6 flex-wrap">
             <!-- YouTube -->
-            <a href="#" class="group relative flex items-center justify-center w-12 h-12 rounded-full border border-ember/20 bg-charcoal/40 hover:border-ember hover:bg-ember/10 hover:shadow-[0_0_20px_rgba(200,135,59,0.5)] transition-all duration-300" title="YouTube">
+            <a href="#" class="group relative flex items-center justify-center w-12 h-12 rounded-full border border-ember/20 bg-charcoal/40 hover:border-ember hover:bg-ember/10 hover:shadow-[0_0_20px_rgba(178,150,97,0.5)] transition-all duration-300" title="YouTube">
               <svg class="w-5 h-5 text-parchment/60 group-hover:text-ember_glow transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             </a>
 
             <!-- Instagram -->
-            <a href="#" class="group relative flex items-center justify-center w-12 h-12 rounded-full border border-ember/20 bg-charcoal/40 hover:border-ember hover:bg-ember/10 hover:shadow-[0_0_20px_rgba(200,135,59,0.5)] transition-all duration-300" title="Instagram">
+            <a href="#" class="group relative flex items-center justify-center w-12 h-12 rounded-full border border-ember/20 bg-charcoal/40 hover:border-ember hover:bg-ember/10 hover:shadow-[0_0_20px_rgba(178,150,97,0.5)] transition-all duration-300" title="Instagram">
               <svg class="w-5 h-5 text-parchment/60 group-hover:text-ember_glow transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
             </a>
           </div>
@@ -1318,12 +1322,12 @@
       document.querySelectorAll('.collection-filter').forEach(btn => {
         if (btn.dataset.filter === category) {
           btn.classList.add('active');
-          btn.style.borderColor = 'rgba(200, 135, 59, 0.4)';
-          btn.style.color = 'rgba(200, 135, 59, 0.85)';
+          btn.style.borderColor = 'rgba(178, 150, 97, 0.5)';
+          btn.style.color = 'rgba(240, 224, 172, 0.95)';
         } else {
           btn.classList.remove('active');
-          btn.style.borderColor = 'rgba(200, 135, 59, 0.1)';
-          btn.style.color = 'rgba(158, 151, 135, 0.4)';
+          btn.style.borderColor = 'rgba(178, 150, 97, 0.15)';
+          btn.style.color = 'rgba(178, 150, 97, 0.4)';
         }
       });
     }
@@ -1351,9 +1355,9 @@
     const nav = document.getElementById('main-nav');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 50) {
-        nav.style.background = 'rgba(10, 10, 11, 0.9)';
+        nav.style.background = 'rgba(18, 25, 38, 0.92)';
         nav.style.backdropFilter = 'blur(12px)';
-        nav.style.borderBottom = '1px solid rgba(200, 135, 59, 0.08)';
+        nav.style.borderBottom = '1px solid rgba(178, 150, 97, 0.12)';
       } else {
         nav.style.background = 'transparent';
         nav.style.backdropFilter = 'none';
@@ -1399,13 +1403,13 @@
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200, 135, 59, ${this.opacity})`;
+        ctx.fillStyle = `rgba(240, 224, 172, ${this.opacity})`;
         ctx.fill();
 
         // Glow
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200, 135, 59, ${this.opacity * 0.15})`;
+        ctx.fillStyle = `rgba(178, 150, 97, ${this.opacity * 0.2})`;
         ctx.fill();
       }
     }
@@ -1486,7 +1490,7 @@
       }
 
       if (revealedCount > 0) {
-        feedback.className = 'mt-6 p-4 rounded-sm border border-ember/60 bg-ember/15 text-xs font-title text-ember_glow tracking-wider shadow-[0_0_20px_rgba(200,135,59,0.25)] animate-pulse';
+        feedback.className = 'mt-6 p-4 rounded-sm border border-ember/60 bg-ember/15 text-xs font-title text-ember_glow tracking-wider shadow-[0_0_20px_rgba(240,224,172,0.3)] animate-pulse';
         feedback.innerHTML = msg;
         input.value = '';
       }
@@ -1498,7 +1502,7 @@
 
       UNLOCKED_RELICS[id] = true;
       card.classList.remove('opacity-60');
-      card.classList.add('opacity-100', 'border-ember/60', 'shadow-[0_0_25px_rgba(200,135,59,0.25)]');
+      card.classList.add('opacity-100', 'border-ember/60', 'shadow-[0_0_25px_rgba(240,224,172,0.3)]');
 
       const icon = card.querySelector('.relic-lock-icon');
       if (icon) {
