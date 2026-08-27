@@ -987,123 +987,168 @@
         </div>
 
         <!-- Interactive Map Container -->
-        <div class="relative w-full aspect-[16/10] sm:aspect-[16/9] min-h-[460px] glass-card rounded-sm overflow-hidden border border-ember/25 shadow-2xl bg-gradient-to-br from-[#0c0c0e] via-[#151518] to-[#09090b]">
+        <div class="relative w-full aspect-[16/11] sm:aspect-[16/10] md:aspect-[16/10] min-h-[500px] glass-card rounded-sm overflow-hidden border border-ember/30 shadow-2xl bg-abyss select-none" id="map-viewport">
           
-          <!-- Map Background Graphics (Topographic Grid & Compass Overlay) -->
-          <div class="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#c8873b_1px,transparent_1px)] [background-size:32px_32px]"></div>
-          <div class="absolute inset-0 pointer-events-none opacity-10 bg-[radial-gradient(circle_at_center,#c8873b_0%,transparent_70%)]"></div>
-          
-          <!-- Topographic Art Overlay -->
-          <svg class="absolute inset-0 w-full h-full opacity-15 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50%" cy="50%" r="220" fill="none" stroke="#c8873b" stroke-width="1" stroke-dasharray="4 8" />
-            <circle cx="50%" cy="50%" r="380" fill="none" stroke="#c8873b" stroke-width="0.75" stroke-dasharray="2 12" />
-            <path d="M 50 200 Q 250 80 450 220 T 850 180 T 1200 300" fill="none" stroke="#c8873b" stroke-width="1" opacity="0.3" />
-            <path d="M 100 380 Q 300 280 600 420 T 1000 350" fill="none" stroke="#c8873b" stroke-width="1" opacity="0.25" />
-            <path d="M 0 500 Q 400 450 750 540 T 1200 480" fill="none" stroke="#c8873b" stroke-width="0.8" opacity="0.2" />
-          </svg>
-
-          <!-- Compass Rose Ornament (Top Left) -->
-          <div class="absolute top-6 left-6 pointer-events-none flex items-center gap-3 opacity-60">
-            <div class="w-10 h-10 border border-ember/40 rounded-full flex items-center justify-center">
-              <span class="font-title text-[10px] text-ember_pale tracking-widest">N</span>
-            </div>
-            <div class="hidden sm:block text-[9px] font-title text-parchment/50 tracking-[0.25em] uppercase">
-              Caelune · Cartografía
-            </div>
-          </div>
-
           <!-- Zoom & Pan Controls (Top Right) -->
-          <div class="absolute top-6 right-6 z-20 flex items-center gap-1.5 bg-abyss/85 border border-ember/30 rounded-sm p-1.5 backdrop-blur-md shadow-xl">
+          <div class="absolute top-5 right-5 z-30 flex items-center gap-1.5 bg-abyss/90 border border-ember/40 rounded-sm p-1.5 backdrop-blur-md shadow-2xl">
             <button 
-              onclick="zoomMap(0.15)" 
-              class="w-8 h-8 rounded-sm border border-ember/20 hover:border-ember hover:bg-ember/10 text-ember_pale font-title flex items-center justify-center transition-all duration-200 text-sm" 
+              onclick="zoomMap(0.2)" 
+              class="w-8 h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-ember_pale font-title flex items-center justify-center transition-all duration-200 text-base font-bold" 
               title="Acercar"
             >+</button>
             <button 
-              onclick="zoomMap(-0.15)" 
-              class="w-8 h-8 rounded-sm border border-ember/20 hover:border-ember hover:bg-ember/10 text-ember_pale font-title flex items-center justify-center transition-all duration-200 text-sm" 
+              onclick="zoomMap(-0.2)" 
+              class="w-8 h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-ember_pale font-title flex items-center justify-center transition-all duration-200 text-base font-bold" 
               title="Alejar"
             >-</button>
             <button 
               onclick="resetMapZoom()" 
-              class="px-2.5 h-8 rounded-sm border border-ember/20 hover:border-ember hover:bg-ember/10 text-parchment/60 hover:text-ember_pale font-title text-[10px] tracking-wider transition-all duration-200" 
-              title="Restablecer"
+              class="px-2.5 h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-parchment/70 hover:text-ember_pale font-title text-[10px] tracking-wider transition-all duration-200" 
+              title="Restablecer vista"
+              id="map-zoom-label"
             >100%</button>
           </div>
 
-          <!-- Scalable Map Layer Containing Points -->
-          <div id="map-interactive-layer" class="absolute inset-0 transition-transform duration-300 ease-out origin-center">
+          <!-- Top Left Kingdom Tag -->
+          <div class="absolute top-5 left-5 z-20 pointer-events-none flex items-center gap-2.5 bg-abyss/85 border border-ember/30 px-3.5 py-1.5 rounded-sm backdrop-blur-md">
+            <span class="text-ember text-xs">◈</span>
+            <span class="font-title text-[11px] text-ember_pale tracking-[0.25em] uppercase">Reino de Caelune</span>
+          </div>
 
-            <!-- Bonfire Point 1: Ruinas de Caelune (Top Left / Center-Left) -->
-            <div class="absolute top-[28%] left-[24%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
-              <!-- Animated Pulse Glow -->
-              <div class="absolute -inset-3 bg-ember/30 rounded-full blur-md animate-pulse"></div>
-              <!-- Fire Beacon Pin -->
-              <div class="relative w-7 h-7 rounded-full bg-abyss border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.7)] group-hover:scale-125 transition-transform duration-300">
-                <span class="text-ember_glow text-xs">🔥</span>
-              </div>
-              <!-- Tooltip on Hover -->
-              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 glass-card rounded-sm border border-ember/40 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-30">
-                <div class="text-[9px] font-title text-ember/70 tracking-[0.2em] uppercase mb-1">Hoguera Mayor</div>
-                <h4 class="font-title text-xs tracking-wider text-ember_pale font-semibold mb-1">Ruinas de Caelune</h4>
-                <p class="text-[11px] text-bone/60 leading-relaxed font-light">
-                  El antiguo bastión de piedra donde Lyora realizó el ritual para convocar a la guerrera de Ithos.
-                </p>
-                <div class="mt-2 pt-2 border-t border-ember/10 text-[9px] text-ember/50 font-title">
-                  Coord: N 42° 18' · W 11° 04'
-                </div>
-              </div>
-            </div>
+          <!-- Scalable & Pannable Map Layer -->
+          <div id="map-interactive-layer" class="absolute inset-0 w-full h-full transition-transform duration-300 ease-out origin-center cursor-grab active:cursor-grabbing">
+            
+            <!-- Authentic Map Artwork -->
+            <img 
+              src="./mapa-caelune.jpg" 
+              alt="Mapa del Reino de Caelune" 
+              class="w-full h-full object-cover sm:object-contain object-center pointer-events-none filter contrast-105 brightness-95"
+            />
 
-            <!-- Bonfire Point 2: Bosque de Lýndareth (Center-Right) -->
-            <div class="absolute top-[52%] left-[62%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
-              <!-- Animated Pulse Glow -->
-              <div class="absolute -inset-3 bg-ember/30 rounded-full blur-md animate-pulse" style="animation-delay: 0.5s;"></div>
-              <!-- Fire Beacon Pin -->
-              <div class="relative w-7 h-7 rounded-full bg-abyss border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.7)] group-hover:scale-125 transition-transform duration-300">
-                <span class="text-ember_glow text-xs">🔥</span>
+            <!-- Subtle Vignette / Edge Glow -->
+            <div class="absolute inset-0 bg-gradient-to-t from-abyss/60 via-transparent to-abyss/40 pointer-events-none"></div>
+
+            <!-- Beacon 1: Bosque de Lýndareth (Top Left: 19%, 23%) -->
+            <div class="absolute top-[23%] left-[19%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('lyndareth')">
+              <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse"></div>
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+                <span class="text-xs">🔥</span>
               </div>
-              <!-- Tooltip on Hover -->
-              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 glass-card rounded-sm border border-ember/40 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-30">
-                <div class="text-[9px] font-title text-ember/70 tracking-[0.2em] uppercase mb-1">Santuario del Eco</div>
+              <!-- Tooltip -->
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 glass-card rounded-sm border border-ember/50 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-30">
+                <div class="text-[9px] font-title text-ember/80 tracking-[0.2em] uppercase mb-1">Santuario del Eco</div>
                 <h4 class="font-title text-xs tracking-wider text-ember_pale font-semibold mb-1">Bosque de Lýndareth</h4>
-                <p class="text-[11px] text-bone/60 leading-relaxed font-light">
-                  Espesura perenne donde el espíritu de Velariel guía a los guerreros errantes hacia el linaje Luminar.
+                <p class="text-[11px] text-bone/75 leading-relaxed font-light">
+                  Espesura perenne dominada por la Torre Silente. Lugar donde el espíritu de Velariel guía a los guerreros hacia la alborada.
                 </p>
-                <div class="mt-2 pt-2 border-t border-ember/10 text-[9px] text-ember/50 font-title">
-                  Coord: N 08° 12' · W 89° 45'
+                <div class="mt-2 pt-2 border-t border-ember/15 text-[9px] text-ember/60 font-title">
+                  Norte · Tierras Altas
                 </div>
               </div>
             </div>
 
-            <!-- Bonfire Point 3: Túmulo de Ithos (Bottom Left-Center) -->
-            <div class="absolute top-[75%] left-[38%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
-              <!-- Animated Pulse Glow -->
-              <div class="absolute -inset-3 bg-ember/30 rounded-full blur-md animate-pulse" style="animation-delay: 1s;"></div>
-              <!-- Fire Beacon Pin -->
-              <div class="relative w-7 h-7 rounded-full bg-abyss border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.7)] group-hover:scale-125 transition-transform duration-300">
-                <span class="text-ember_glow text-xs">🔥</span>
+            <!-- Beacon 2: Cumbres de Thar-Valen (Top Center: 53%, 31%) -->
+            <div class="absolute top-[31%] left-[53%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('tharvalen')">
+              <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse" style="animation-delay: 0.4s;"></div>
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+                <span class="text-xs">🔥</span>
               </div>
-              <!-- Tooltip on Hover -->
-              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 glass-card rounded-sm border border-ember/40 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-30">
-                <div class="text-[9px] font-title text-ember/70 tracking-[0.2em] uppercase mb-1">Túmulo Marcial</div>
-                <h4 class="font-title text-xs tracking-wider text-ember_pale font-semibold mb-1">Monumento de Eira Vael</h4>
-                <p class="text-[11px] text-bone/60 leading-relaxed font-light">
-                  Lugar de reposo donde su lanza, escudo hoplita y yelmo de bronce permanecen clavados en la tierra.
+              <!-- Tooltip -->
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 glass-card rounded-sm border border-ember/50 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-30">
+                <div class="text-[9px] font-title text-ember/80 tracking-[0.2em] uppercase mb-1">Cumbre de los Ancestros</div>
+                <h4 class="font-title text-xs tracking-wider text-ember_pale font-semibold mb-1">Cumbres de Thar-Valen</h4>
+                <p class="text-[11px] text-bone/75 leading-relaxed font-light">
+                  Picos nevados impenetrables. Sus desfiladeros custodian los templos primordiales anteriores a la gran calamidad.
                 </p>
-                <div class="mt-2 pt-2 border-t border-ember/10 text-[9px] text-ember/50 font-title">
-                  Coord: S 19° 52' · E 64° 30'
+                <div class="mt-2 pt-2 border-t border-ember/15 text-[9px] text-ember/60 font-title">
+                  Cordillera Central · Paso Prohibido
+                </div>
+              </div>
+            </div>
+
+            <!-- Beacon 3: Lago Aelyrion (Mid Left: 26%, 51%) -->
+            <div class="absolute top-[51%] left-[26%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('aelyrion')">
+              <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse" style="animation-delay: 0.8s;"></div>
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+                <span class="text-xs">🔥</span>
+              </div>
+              <!-- Tooltip -->
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 glass-card rounded-sm border border-ember/50 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-30">
+                <div class="text-[9px] font-title text-ember/80 tracking-[0.2em] uppercase mb-1">Aguas Místicas</div>
+                <h4 class="font-title text-xs tracking-wider text-ember_pale font-semibold mb-1">Lago Aelyrion</h4>
+                <p class="text-[11px] text-bone/75 leading-relaxed font-light">
+                  Espejo de agua donde los navíos de los Portadores descansan. En sus profundidades resuenan lamentos de la antigua Caelune.
+                </p>
+                <div class="mt-2 pt-2 border-t border-ember/15 text-[9px] text-ember/60 font-title">
+                  Cuenca Occidental · Navío Sagrado
+                </div>
+              </div>
+            </div>
+
+            <!-- Beacon 4: Arenas de Khar-Zún (Mid Right: 74%, 52%) -->
+            <div class="absolute top-[52%] left-[74%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('kharzun')">
+              <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse" style="animation-delay: 1.2s;"></div>
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+                <span class="text-xs">🔥</span>
+              </div>
+              <!-- Tooltip -->
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 glass-card rounded-sm border border-ember/50 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-30">
+                <div class="text-[9px] font-title text-ember/80 tracking-[0.2em] uppercase mb-1">Tierras Áridas</div>
+                <h4 class="font-title text-xs tracking-wider text-ember_pale font-semibold mb-1">Arenas de Khar-Zún</h4>
+                <p class="text-[11px] text-bone/75 leading-relaxed font-light">
+                  Desierto infinito azotado por tormentas de polvo y ceniza. Caravanas de bestias nómadas comercian con reliquias olvidadas.
+                </p>
+                <div class="mt-2 pt-2 border-t border-ember/15 text-[9px] text-ember/60 font-title">
+                  Este · Dunas Calcinadas
+                </div>
+              </div>
+            </div>
+
+            <!-- Beacon 5: Ruinas de Valmor (Bottom Left: 19%, 75%) -->
+            <div class="absolute top-[75%] left-[19%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('valmor')">
+              <div class="absolute -inset-3.5 bg-ember/40 rounded-full blur-md animate-pulse" style="animation-delay: 1.6s;"></div>
+              <div class="relative w-8 h-8 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_20px_rgba(230,168,77,0.9)] group-hover:scale-125 transition-transform duration-300">
+                <span class="text-sm">🔥</span>
+              </div>
+              <!-- Tooltip -->
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 glass-card rounded-sm border border-ember/60 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-30">
+                <div class="text-[9px] font-title text-ember_glow tracking-[0.2em] uppercase mb-1">Bastión Caído · Hoguera Principal</div>
+                <h4 class="font-title text-xs tracking-wider text-ember_pale font-semibold mb-1">Ruinas de Valmor</h4>
+                <p class="text-[11px] text-bone/75 leading-relaxed font-light">
+                  La colosal fortaleza derruida que da nombre al reino. En sus criptas aún arde la brasa que desafió al fuego de la creación.
+                </p>
+                <div class="mt-2 pt-2 border-t border-ember/15 text-[9px] text-ember_glow font-title">
+                  Suroeste · Fortaleza Ancestral
+                </div>
+              </div>
+            </div>
+
+            <!-- Beacon 6: Mar de las Sombras (Bottom Right: 69%, 82%) -->
+            <div class="absolute top-[82%] left-[69%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" onclick="selectMapLocation('sombras')">
+              <div class="absolute -inset-3.5 bg-ember/35 rounded-full blur-md animate-pulse" style="animation-delay: 2.0s;"></div>
+              <div class="relative w-7 h-7 rounded-full bg-abyss/95 border-2 border-ember flex items-center justify-center shadow-[0_0_15px_rgba(230,168,77,0.8)] group-hover:scale-125 transition-transform duration-300">
+                <span class="text-xs">🔥</span>
+              </div>
+              <!-- Tooltip -->
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 glass-card rounded-sm border border-ember/50 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-30">
+                <div class="text-[9px] font-title text-ember/80 tracking-[0.2em] uppercase mb-1">Confines Abisales</div>
+                <h4 class="font-title text-xs tracking-wider text-ember_pale font-semibold mb-1">Mar de las Sombras</h4>
+                <p class="text-[11px] text-bone/75 leading-relaxed font-light">
+                  Acantilados vertiginosos que desembocan en aguas negras perpetuas. Se dice que ningún barco que zarpó hacia el este regresó jamás.
+                </p>
+                <div class="mt-2 pt-2 border-t border-ember/15 text-[9px] text-ember/60 font-title">
+                  Sureste · Límite del Mundo Conocido
                 </div>
               </div>
             </div>
 
           </div>
 
-          <!-- Bottom Coordinates Legend Bar -->
-          <div class="absolute bottom-4 left-6 right-6 pointer-events-none flex justify-between items-center text-[10px] font-title text-parchment/40 tracking-wider">
-            <span>Escala: 1 : 50.000 · Tierras Sombrías</span>
-            <span class="hidden sm:inline">◈ Caelune & Ithos ◈</span>
-            <span>Hogueras Activas: 3</span>
+          <!-- Bottom Legend Bar -->
+          <div class="absolute bottom-3 left-4 right-4 z-20 pointer-events-none flex justify-between items-center text-[10px] font-title text-parchment/60 bg-abyss/85 px-4 py-1.5 rounded-sm border border-ember/20 backdrop-blur-sm">
+            <span>Escala: 1 : 100.000 · Cartografía de Caelune</span>
+            <span class="hidden sm:inline">6 Hogueras Reveladas</span>
+            <span class="text-ember_pale">Pasa el cursor para explorar</span>
           </div>
 
         </div>
@@ -1500,7 +1545,7 @@
     let currentMapZoom = 1.0;
 
     function zoomMap(delta) {
-      currentMapZoom = Math.min(Math.max(currentMapZoom + delta, 0.8), 2.0);
+      currentMapZoom = Math.min(Math.max(currentMapZoom + delta, 0.8), 2.2);
       applyMapZoom();
     }
 
@@ -1511,9 +1556,18 @@
 
     function applyMapZoom() {
       const layer = document.getElementById('map-interactive-layer');
+      const label = document.getElementById('map-zoom-label');
       if (layer) {
         layer.style.transform = `scale(${currentMapZoom})`;
       }
+      if (label) {
+        label.textContent = `${Math.round(currentMapZoom * 100)}%`;
+      }
+    }
+
+    function selectMapLocation(locationId) {
+      // Bring click focus to the location beacon
+      console.log('Hoguera seleccionada:', locationId);
     }
 
     // ============ CONTACT / SEND MISSIVE ============
