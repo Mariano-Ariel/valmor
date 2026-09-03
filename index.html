@@ -361,6 +361,7 @@
       #main-nav .max-w-6xl {
         padding-top: 0.35rem !important;
         padding-bottom: 0.35rem !important;
+        min-height: 42px !important;
       }
 
       /* Compact bottom bar if active */
@@ -414,7 +415,377 @@
         max-height: 380px !important;
       }
     }
+
+    /* ============================================================ */
+    /* ========== THEME SYSTEM & CELESTIAL SWITCH ================= */
+    /* ============================================================ */
+    body {
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Celestial Mode Switch (Desktop & Mobile) */
+    .theme-toggle-btn {
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+      outline: none;
+    }
+    .theme-toggle-thumb {
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.35s ease, box-shadow 0.35s ease;
+    }
+    .theme-icon-moon, .theme-icon-sun {
+      transition: color 0.3s ease, opacity 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    /* Collection filters */
+    .collection-filter {
+      border-color: rgba(178, 150, 97, 0.2);
+      color: rgba(178, 150, 97, 0.5);
+      transition: all 0.3s ease;
+    }
+    .collection-filter:hover {
+      border-color: rgba(178, 150, 97, 0.6);
+      color: rgba(240, 224, 172, 0.9);
+    }
+    .collection-filter.active {
+      border-color: rgba(178, 150, 97, 0.8);
+      color: rgba(240, 224, 172, 1);
+      background: rgba(178, 150, 97, 0.12);
+      box-shadow: 0 0 12px rgba(178, 150, 97, 0.2);
+    }
+
+    /* ============================================================ */
+    /* ========== THEME LIGHT (PERGAMINO ANCESTRAL) =============== */
+    /* ============================================================ */
+    html.theme-light body {
+      background-color: #f7f3eb;
+      color: #2b241d;
+    }
+
+    html.theme-light body::before {
+      opacity: 0.045;
+      filter: invert(1);
+    }
+
+    /* Scrollbar */
+    html.theme-light ::-webkit-scrollbar-track {
+      background: #f7f3eb;
+    }
+    html.theme-light ::-webkit-scrollbar-thumb {
+      background: #bfa577;
+    }
+    html.theme-light ::-webkit-scrollbar-thumb:hover {
+      background: #8e6c33;
+    }
+
+    /* Celestial Switch in Light Mode */
+    html.theme-light .theme-toggle-btn {
+      background: rgba(240, 233, 220, 0.9) !important;
+      border-color: rgba(143, 107, 40, 0.55) !important;
+      box-shadow: inset 0 1px 3px rgba(143, 107, 40, 0.25);
+    }
+    html.theme-light #theme-toggle-desktop .theme-toggle-thumb {
+      transform: translateX(32px);
+      background: linear-gradient(135deg, #d4a03e, #8f6219);
+      box-shadow: 0 0 12px rgba(212, 160, 62, 0.7);
+      color: #ffffff;
+    }
+    html.theme-light #theme-toggle-mobile .theme-toggle-thumb {
+      transform: translateX(28px);
+      background: linear-gradient(135deg, #d4a03e, #8f6219);
+      box-shadow: 0 0 10px rgba(212, 160, 62, 0.7);
+      color: #ffffff;
+    }
+    html.theme-light .theme-icon-moon {
+      color: rgba(143, 107, 40, 0.35) !important;
+    }
+    html.theme-light .theme-icon-sun {
+      color: #78500c !important;
+      text-shadow: 0 0 6px rgba(212, 160, 62, 0.6);
+    }
+
+    /* Glassmorphism Cards */
+    html.theme-light .glass-card {
+      background: rgba(255, 252, 245, 0.86);
+      border: 1px solid rgba(143, 107, 40, 0.22);
+      box-shadow: 0 4px 24px rgba(90, 65, 20, 0.06);
+    }
+    html.theme-light .glass-card:hover {
+      border-color: rgba(143, 107, 40, 0.55);
+      box-shadow: 0 6px 28px rgba(143, 107, 40, 0.16);
+    }
+
+    /* Typography Overrides in Light Mode */
+    html.theme-light .text-bone,
+    html.theme-light [class*="text-bone/"] {
+      color: #2b241d !important;
+    }
+    html.theme-light .text-bone\/95,
+    html.theme-light .text-bone\/90,
+    html.theme-light .text-bone\/80 {
+      color: #352c23 !important;
+    }
+    html.theme-light .text-bone\/75,
+    html.theme-light .text-bone\/70,
+    html.theme-light .text-bone\/60 {
+      color: #55483a !important;
+    }
+    html.theme-light .text-bone\/40 {
+      color: #7a6a5b !important;
+    }
+
+    html.theme-light .text-ember_pale,
+    html.theme-light [class*="text-ember_pale"] {
+      color: #4a3410 !important;
+    }
+    html.theme-light .text-ember_glow {
+      color: #78500c !important;
+    }
+    html.theme-light .text-parchment,
+    html.theme-light [class*="text-parchment/"] {
+      color: #63503e !important;
+    }
+    html.theme-light .text-ember {
+      color: #8a6421 !important;
+    }
+    html.theme-light .text-ember\/80,
+    html.theme-light .text-ember\/70,
+    html.theme-light .text-ember\/60 {
+      color: #7a581b !important;
+    }
+
+    /* Backgrounds */
+    html.theme-light [class*="bg-abyss"] {
+      background-color: rgba(247, 243, 235, 0.95) !important;
+    }
+    html.theme-light [class*="bg-ash"] {
+      background-color: rgba(240, 234, 222, 0.92) !important;
+    }
+    html.theme-light [class*="bg-charcoal"] {
+      background-color: rgba(235, 228, 214, 0.88) !important;
+    }
+    html.theme-light [class*="bg-slate_dark"] {
+      background-color: rgba(226, 217, 201, 0.92) !important;
+    }
+
+    /* Gradients */
+    html.theme-light .from-abyss\/90 {
+      --tw-gradient-from: rgba(247, 243, 235, 0.92) var(--tw-gradient-from-position) !important;
+    }
+    html.theme-light .to-abyss\/40 {
+      --tw-gradient-to: rgba(247, 243, 235, 0.45) var(--tw-gradient-to-position) !important;
+    }
+    html.theme-light .from-abyss\/60 {
+      --tw-gradient-from: rgba(247, 243, 235, 0.65) var(--tw-gradient-from-position) !important;
+    }
+
+    /* Borders */
+    html.theme-light [class*="border-ember"] {
+      border-color: rgba(143, 107, 40, 0.28) !important;
+    }
+
+    /* Nav Links & Logo in Light Mode */
+    html.theme-light .nav-link {
+      color: #7a581b;
+    }
+    html.theme-light .nav-link:hover,
+    html.theme-light .nav-link.active {
+      color: #3b2808;
+    }
+    html.theme-light .nav-link::after {
+      background: #7a581b;
+    }
+    html.theme-light #nav-logo,
+    html.theme-light #mobile-top-logo {
+      color: #7a581b;
+    }
+    html.theme-light #nav-logo:hover,
+    html.theme-light #mobile-top-logo:hover {
+      color: #3b2808;
+    }
+
+    /* Mobile Bottom Tab Bar */
+    html.theme-light .mobile-bottom-bar {
+      background: rgba(247, 243, 235, 0.96) !important;
+      border-top: 1px solid rgba(143, 107, 40, 0.22) !important;
+    }
+    html.theme-light .mobile-bottom-bar button {
+      color: #7a581b !important;
+    }
+    html.theme-light .mobile-bottom-bar button.active {
+      color: #3b2808 !important;
+      filter: drop-shadow(0 0 6px rgba(160, 115, 30, 0.5));
+    }
+
+    /* Buttons */
+    html.theme-light .btn-ember {
+      border-color: rgba(143, 107, 40, 0.6);
+      color: #6a4910;
+      background: rgba(243, 235, 220, 0.45);
+    }
+    html.theme-light .btn-ember:hover {
+      border-color: #523709;
+      color: #2b1d04;
+      background: rgba(236, 224, 203, 0.85);
+      box-shadow: 0 0 20px rgba(143, 107, 40, 0.22);
+    }
+    html.theme-light .btn-ember::before {
+      background: linear-gradient(90deg, transparent, rgba(143, 107, 40, 0.15), transparent);
+    }
+
+    /* Dividers and lines */
+    html.theme-light .hero-line {
+      background: linear-gradient(90deg, transparent, #8a6421, transparent);
+    }
+    html.theme-light .lore-divider::before,
+    html.theme-light .lore-divider::after {
+      background: linear-gradient(90deg, transparent, #8a6421, transparent);
+    }
+    html.theme-light .lore-divider span {
+      color: #8a6421;
+    }
+
+    /* Collection items */
+    html.theme-light .collection-filter {
+      border-color: rgba(143, 107, 40, 0.25);
+      color: rgba(115, 94, 75, 0.7);
+    }
+    html.theme-light .collection-filter:hover {
+      border-color: rgba(143, 107, 40, 0.5);
+      color: #5c3f0d;
+    }
+    html.theme-light .collection-filter.active {
+      border-color: rgba(143, 107, 40, 0.75);
+      color: #3b2808;
+      background: rgba(143, 107, 40, 0.12);
+      box-shadow: 0 0 12px rgba(143, 107, 40, 0.18);
+    }
+
+    /* Placeholders & Icons */
+    html.theme-light .img-placeholder {
+      background: linear-gradient(145deg, #f0e9dc 0%, #e6decb 50%, #f0e9dc 100%);
+    }
+    html.theme-light .icon-placeholder {
+      background: linear-gradient(145deg, #eee6d6, #dfd5c1);
+      border-color: rgba(143, 107, 40, 0.3);
+    }
+    html.theme-light .icon-placeholder::after {
+      color: rgba(143, 107, 40, 0.6);
+    }
+
+    /* Inputs and Forms */
+    html.theme-light input,
+    html.theme-light textarea {
+      background-color: rgba(255, 252, 246, 0.85) !important;
+      border-color: rgba(143, 107, 40, 0.3) !important;
+      color: #2b241d !important;
+    }
+    html.theme-light input::placeholder,
+    html.theme-light textarea::placeholder {
+      color: rgba(115, 94, 75, 0.55) !important;
+    }
+    html.theme-light input:focus,
+    html.theme-light textarea:focus {
+      border-color: #8a6421 !important;
+      box-shadow: 0 0 12px rgba(143, 107, 40, 0.25) !important;
+    }
+
+    /* Map Viewport & Controls in Light Mode */
+    html.theme-light #map-viewport {
+      background-color: #e8e2d4 !important;
+      border-color: rgba(143, 107, 40, 0.4) !important;
+    }
+    html.theme-light #map-viewport .bg-abyss\/90,
+    html.theme-light #map-viewport .bg-abyss\/85,
+    html.theme-light #map-viewport .bg-abyss\/95 {
+      background-color: rgba(255, 252, 246, 0.95) !important;
+      color: #2b241d !important;
+      border-color: rgba(143, 107, 40, 0.35) !important;
+    }
+    html.theme-light #map-viewport button {
+      color: #523709 !important;
+    }
+    html.theme-light #map-viewport button:hover {
+      background-color: rgba(143, 107, 40, 0.15) !important;
+    }
+    html.theme-light #map-beacon-drawer {
+      background-color: rgba(255, 252, 246, 0.98) !important;
+      border-color: rgba(143, 107, 40, 0.5) !important;
+    }
+
+    /* Relics & Accordions */
+    html.theme-light .relic-card {
+      background: rgba(255, 252, 246, 0.88);
+    }
+    html.theme-light .relic-lock-icon {
+      background: rgba(240, 232, 218, 0.95) !important;
+      border-color: rgba(143, 107, 40, 0.4) !important;
+      color: #78500c !important;
+    }
+    html.theme-light .relic-card.unlocked {
+      border-color: rgba(143, 107, 40, 0.65) !important;
+      box-shadow: 0 4px 24px rgba(143, 107, 40, 0.15) !important;
+    }
+    html.theme-light .relic-dropdown {
+      border-color: rgba(143, 107, 40, 0.25) !important;
+    }
+    html.theme-light .relic-lore-content {
+      background-color: rgba(246, 239, 228, 0.95) !important;
+      border-color: rgba(143, 107, 40, 0.3) !important;
+    }
+    html.theme-light .relic-toggle-btn {
+      background-color: rgba(240, 233, 220, 0.75) !important;
+      color: #6a4910 !important;
+    }
+
+    /* Feedback message in Unlock */
+    html.theme-light .border-red-900\/40 {
+      border-color: rgba(185, 28, 28, 0.4) !important;
+    }
+    html.theme-light .bg-red-950\/20 {
+      background-color: rgba(254, 226, 226, 0.75) !important;
+    }
+    html.theme-light .text-red-300\/70 {
+      color: #991b1b !important;
+    }
+
+    /* Social icons in Light Mode */
+    html.theme-light a[title="YouTube"],
+    html.theme-light a[title="Instagram"] {
+      background-color: rgba(240, 233, 220, 0.8) !important;
+      border-color: rgba(143, 107, 40, 0.35) !important;
+    }
+    html.theme-light a[title="YouTube"]:hover,
+    html.theme-light a[title="Instagram"]:hover {
+      background-color: rgba(232, 222, 204, 0.95) !important;
+      border-color: #8a6421 !important;
+      box-shadow: 0 0 16px rgba(143, 107, 40, 0.3) !important;
+    }
+
+    /* Footer in Light Mode */
+    html.theme-light footer {
+      background-color: rgba(240, 234, 223, 0.96) !important;
+      border-top-color: rgba(143, 107, 40, 0.3) !important;
+    }
+
+    /* Lightbox Modal in Light Mode */
+    html.theme-light #relic-lightbox-modal {
+      background-color: rgba(247, 243, 235, 0.94) !important;
+    }
+    html.theme-light #relic-lightbox-modal .bg-abyss {
+      background-color: #1a1816 !important;
+    }
   </style>
+
+  <!-- Prevent FOUT (Flash of Unstyled Theme) -->
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('valmor_theme');
+        if (savedTheme === 'light' || (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+          document.documentElement.classList.add('theme-light');
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 
 <body class="min-h-screen text-bone font-body relative">
@@ -425,8 +796,8 @@
   <!-- ============================================================ -->
   <!-- NAVIGATION -->
   <!-- ============================================================ -->
-  <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
-    <div class="max-w-6xl mx-auto px-6 py-4 sm:py-5 flex items-center justify-between relative">
+  <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 pt-[max(0.5rem,env(safe-area-inset-top))]">
+    <div class="max-w-6xl mx-auto px-6 py-4 sm:py-5 min-h-[64px] sm:min-h-[72px] flex items-center justify-between relative">
       <!-- Desktop Logo (Text on left for md+) -->
       <button onclick="navigateTo('home')" class="hidden md:block font-title text-xl tracking-[0.3em] text-ember hover:text-ember_glow transition-colors duration-300" id="nav-logo" aria-label="Valmor Inicio">
         VALMOR
@@ -439,6 +810,23 @@
         </button>
       </div>
 
+      <!-- Mobile Theme Toggle (Top Right) -->
+      <div class="md:hidden absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20">
+        <button 
+          id="theme-toggle-mobile" 
+          onclick="toggleTheme()" 
+          class="theme-toggle-btn group relative flex items-center justify-between w-14 h-7 px-1 rounded-full border border-ember/40 bg-charcoal/60 active:scale-95 transition-all duration-300 backdrop-blur-md cursor-pointer select-none" 
+          aria-label="Cambiar entre modo Umbría y Pergamino" 
+          title="Alternar Modo Umbría / Pergamino"
+        >
+          <span class="theme-icon-moon text-[10px] text-ember/80 pl-1">☾</span>
+          <span class="theme-icon-sun text-[10px] text-ember/40 pr-1">☼</span>
+          <span class="theme-toggle-thumb absolute left-0.5 w-6 h-6 rounded-full bg-gradient-to-br from-ember to-ember_dim shadow-[0_0_8px_rgba(240,224,172,0.4)] flex items-center justify-center transition-all duration-300 text-[9px] text-abyss font-bold pointer-events-none">
+            <span class="thumb-icon-glyph">☾</span>
+          </span>
+        </button>
+      </div>
+
       <!-- Desktop Nav -->
       <div class="hidden md:flex items-center gap-6 lg:gap-8">
         <button onclick="navigateTo('home')" class="nav-link font-title text-xs uppercase active" data-nav="home" id="nav-home">Inicio</button>
@@ -447,6 +835,21 @@
         <button onclick="navigateTo('unlock')" class="nav-link font-title text-xs uppercase" data-nav="unlock" id="nav-unlock">Desbloquear</button>
         <button onclick="navigateTo('map')" class="nav-link font-title text-xs uppercase" data-nav="map" id="nav-map">Mapa</button>
         <button onclick="navigateTo('contact')" class="nav-link font-title text-xs uppercase" data-nav="contact" id="nav-contact">Contacto</button>
+
+        <!-- Celestial Mode Switch (Desktop) -->
+        <button 
+          id="theme-toggle-desktop" 
+          onclick="toggleTheme()" 
+          class="theme-toggle-btn group relative flex items-center justify-between w-16 h-8 px-1.5 rounded-full border border-ember/40 bg-charcoal/60 hover:border-ember transition-all duration-300 backdrop-blur-md cursor-pointer ml-2 select-none" 
+          aria-label="Cambiar entre modo Umbría y Pergamino" 
+          title="Alternar Modo Umbría / Pergamino"
+        >
+          <span class="theme-icon-moon text-xs text-ember/80 group-hover:text-ember_glow transition-colors pl-1">☾</span>
+          <span class="theme-icon-sun text-xs text-ember/40 group-hover:text-ember transition-colors pr-1">☼</span>
+          <span class="theme-toggle-thumb absolute left-1 w-6 h-6 rounded-full bg-gradient-to-br from-ember to-ember_dim shadow-[0_0_10px_rgba(240,224,172,0.5)] flex items-center justify-center transition-all duration-300 text-[10px] text-abyss font-bold pointer-events-none">
+            <span class="thumb-icon-glyph">☾</span>
+          </span>
+        </button>
       </div>
 
     </div>
@@ -1475,6 +1878,49 @@
   <!-- JAVASCRIPT -->
   <!-- ============================================================ -->
   <script>
+    // ============ THEME SYSTEM (DARK & LIGHT) ============
+    let currentTheme = 'dark';
+
+    function initTheme() {
+      const saved = localStorage.getItem('valmor_theme');
+      if (saved === 'light' || saved === 'dark') {
+        applyTheme(saved);
+      } else {
+        const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        applyTheme(prefersLight ? 'light' : 'dark');
+      }
+    }
+
+    function applyTheme(theme) {
+      currentTheme = theme;
+      const isLight = theme === 'light';
+      document.documentElement.classList.toggle('theme-light', isLight);
+
+      // Synchronize glyph inside thumb
+      document.querySelectorAll('.thumb-icon-glyph').forEach(glyph => {
+        glyph.textContent = isLight ? '☼' : '☾';
+      });
+
+      // Update accessibility labels & titles
+      const titleText = isLight ? 'Modo actual: Pergamino (Claro). Clic para Umbría' : 'Modo actual: Umbría (Oscuro). Clic para Pergamino';
+      document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+        btn.setAttribute('title', titleText);
+        btn.setAttribute('aria-label', titleText);
+      });
+
+      // Update scroll navigation style
+      updateNavScrollStyle();
+
+      try {
+        localStorage.setItem('valmor_theme', theme);
+      } catch (e) {}
+    }
+
+    function toggleTheme() {
+      const next = currentTheme === 'light' ? 'dark' : 'light';
+      applyTheme(next);
+    }
+
     // ============ NAVIGATION ============
     let currentSection = 'home';
 
@@ -1533,17 +1979,11 @@
         }
       });
 
-      // Update filter button styles
+      // Update filter button styles using classes
       document.querySelectorAll('.collection-filter').forEach(btn => {
-        if (btn.dataset.filter === category) {
-          btn.classList.add('active');
-          btn.style.borderColor = 'rgba(178, 150, 97, 0.5)';
-          btn.style.color = 'rgba(240, 224, 172, 0.95)';
-        } else {
-          btn.classList.remove('active');
-          btn.style.borderColor = 'rgba(178, 150, 97, 0.15)';
-          btn.style.color = 'rgba(178, 150, 97, 0.4)';
-        }
+        btn.classList.toggle('active', btn.dataset.filter === category);
+        btn.style.borderColor = '';
+        btn.style.color = '';
       });
     }
 
@@ -1568,17 +2008,20 @@
 
     // ============ NAV BACKGROUND ON SCROLL ============
     const nav = document.getElementById('main-nav');
-    window.addEventListener('scroll', () => {
+    function updateNavScrollStyle() {
+      if (!nav) return;
+      const isLight = document.documentElement.classList.contains('theme-light');
       if (window.scrollY > 50) {
-        nav.style.background = 'rgba(10, 10, 11, 0.9)';
+        nav.style.background = isLight ? 'rgba(247, 243, 235, 0.95)' : 'rgba(10, 10, 11, 0.9)';
         nav.style.backdropFilter = 'blur(12px)';
-        nav.style.borderBottom = '1px solid rgba(178, 150, 97, 0.12)';
+        nav.style.borderBottom = isLight ? '1px solid rgba(143, 107, 40, 0.22)' : '1px solid rgba(178, 150, 97, 0.12)';
       } else {
         nav.style.background = 'transparent';
         nav.style.backdropFilter = 'none';
         nav.style.borderBottom = '1px solid transparent';
       }
-    });
+    }
+    window.addEventListener('scroll', updateNavScrollStyle);
 
     // ============ EMBER PARTICLE SYSTEM ============
     const canvas = document.getElementById('ember-canvas');
@@ -1616,15 +2059,20 @@
         }
       }
       draw() {
+        const isLight = document.documentElement.classList.contains('theme-light');
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(240, 224, 172, ${this.opacity})`;
+        ctx.fillStyle = isLight 
+          ? `rgba(160, 115, 30, ${this.opacity * 0.85})` 
+          : `rgba(240, 224, 172, ${this.opacity})`;
         ctx.fill();
 
         // Glow
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(178, 150, 97, ${this.opacity * 0.2})`;
+        ctx.fillStyle = isLight 
+          ? `rgba(196, 154, 69, ${this.opacity * 0.25})` 
+          : `rgba(178, 150, 97, ${this.opacity * 0.2})`;
         ctx.fill();
       }
     }
@@ -2208,8 +2656,9 @@
 
     window.addEventListener('hashchange', handleHash);
 
-    // ============ INITIAL STAGGER ============
+    // ============ INITIAL STAGGER & THEME ============
     window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
       handleHash();
       const currentEl = document.getElementById(`section-${currentSection}`);
       setTimeout(() => revealStaggerItems(currentEl), 600);
