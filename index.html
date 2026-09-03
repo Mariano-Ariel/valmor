@@ -304,6 +304,35 @@
       max-height: 200px;
       opacity: 1;
     }
+
+    /* ========== RELIC ACCORDION / DESPLEGABLE ========== */
+    .relic-card {
+      transition: border-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
+    }
+    .relic-card.unlocked {
+      border-color: rgba(178, 150, 97, 0.45);
+    }
+    .relic-card.unlocked:hover {
+      border-color: rgba(240, 224, 172, 0.8);
+      box-shadow: 0 0 25px rgba(240, 224, 172, 0.18);
+    }
+    .relic-dropdown {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease, margin-top 0.4s ease;
+    }
+    .relic-card.expanded .relic-dropdown {
+      max-height: 1400px;
+      opacity: 1;
+      margin-top: 1rem;
+    }
+    .relic-chevron {
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .relic-card.expanded .relic-chevron {
+      transform: rotate(180deg);
+    }
   </style>
 </head>
 
@@ -894,62 +923,140 @@
             <span class="text-[11px] font-title text-parchment/40 tracking-widest uppercase">3 Pergaminos</span>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Locked Item 1 -->
-            <div id="relic-ithos" class="glass-card rounded-sm p-6 border border-ember/15 opacity-60 hover:opacity-80 transition-all duration-500 relative flex flex-col justify-between min-h-[220px]">
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-[9px] font-title tracking-[0.25em] text-ember/60 uppercase">Pergamino I</span>
-                  <div class="relic-lock-icon w-7 h-7 rounded-full bg-abyss/80 border border-ember/30 flex items-center justify-center text-ember/70">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+            <!-- Locked Item 1: VIDEO -->
+            <div id="relic-ithos" class="relic-card glass-card rounded-sm p-6 border border-ember/15 opacity-60 transition-all duration-500 relative flex flex-col justify-between">
+              <div>
+                <!-- Header (Clickable when unlocked) -->
+                <div class="cursor-pointer select-none group" onclick="toggleRelicAccordion('ithos')">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[9px] font-title tracking-[0.25em] text-ember/60 uppercase">Pergamino I</span>
+                    <div class="relic-lock-icon w-7 h-7 rounded-full bg-abyss/80 border border-ember/30 flex items-center justify-center text-ember/70 transition-all duration-300">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2 mt-1 mb-2">
+                    <span class="text-[9px] px-1.5 py-0.5 rounded-sm bg-ember/10 border border-ember/20 text-ember/70 font-title tracking-wider uppercase">Video</span>
+                    <span class="relic-badge-status text-[9px] text-parchment/40 font-title tracking-wider uppercase">Sellado</span>
+                  </div>
+                  <h4 class="font-title text-sm tracking-[0.15em] text-ember_pale/90 relic-title group-hover:text-ember_glow transition-colors">Códice de la Caída de Ithos</h4>
+                  <p class="text-xs text-bone/40 leading-relaxed font-light relic-desc mt-1.5">
+                    Sellado por el lamento de la Vigilia. Solo la invocación del mundo helénico puede quebrar este pacto de silencio.
+                  </p>
+                </div>
+
+                <!-- Desplegable Toggle Button -->
+                <button type="button" onclick="toggleRelicAccordion('ithos')" id="btn-toggle-ithos" class="relic-toggle-btn w-full mt-4 py-2 px-3 rounded-sm border border-ember/20 bg-charcoal/40 text-parchment/40 font-title text-[10px] tracking-[0.2em] uppercase flex items-center justify-between transition-all duration-300 pointer-events-none opacity-50">
+                  <span class="btn-text">🔒 Sellado con Runa</span>
+                  <svg class="relic-chevron w-3.5 h-3.5 text-ember" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+
+                <!-- Hidden / Expandable Video Content -->
+                <div id="content-ithos" class="relic-dropdown">
+                  <div class="pt-3 border-t border-ember/20 space-y-3">
+                    <div class="aspect-video w-full rounded-sm overflow-hidden border border-ember/40 bg-abyss shadow-xl shadow-black/80">
+                      <iframe class="relic-video w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="flex items-center justify-between text-[10px] text-parchment/60 pt-1">
+                      <span class="font-title text-ember/70">✦ Archivo de Ithos</span>
+                      <a id="link-ithos-video" href="#" target="_blank" rel="noopener noreferrer" class="text-ember hover:text-ember_glow underline transition-colors flex items-center gap-1 font-title">
+                        <span>Abrir en YouTube</span>
+                        <span>↗</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
-                <h4 class="font-title text-sm tracking-[0.15em] text-ember_pale/90 relic-title">Códice de la Caída de Ithos</h4>
-                <p class="text-xs text-bone/40 leading-relaxed font-light relic-desc">
-                  Sellado por el lamento de la Vigilia. Solo la invocación del mundo helénico puede quebrar este pacto de silencio.
-                </p>
               </div>
-              <div class="pt-4 border-t border-ember/10 flex justify-between items-center text-[10px] font-title text-parchment/40">
+
+              <div class="pt-4 mt-4 border-t border-ember/10 flex justify-between items-center text-[10px] font-title text-parchment/40">
                 <span class="relic-status">Estado: Bloqueado</span>
                 <span>Runa: [???]</span>
               </div>
             </div>
 
-            <!-- Locked Item 2 -->
-            <div id="relic-velariel" class="glass-card rounded-sm p-6 border border-ember/15 opacity-60 hover:opacity-80 transition-all duration-500 relative flex flex-col justify-between min-h-[220px]">
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-[9px] font-title tracking-[0.25em] text-ember/60 uppercase">Pergamino II</span>
-                  <div class="relic-lock-icon w-7 h-7 rounded-full bg-abyss/80 border border-ember/30 flex items-center justify-center text-ember/70">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <!-- Locked Item 2: LORE -->
+            <div id="relic-velariel" class="relic-card glass-card rounded-sm p-6 border border-ember/15 opacity-60 transition-all duration-500 relative flex flex-col justify-between">
+              <div>
+                <!-- Header (Clickable when unlocked) -->
+                <div class="cursor-pointer select-none group" onclick="toggleRelicAccordion('velariel')">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[9px] font-title tracking-[0.25em] text-ember/60 uppercase">Pergamino II</span>
+                    <div class="relic-lock-icon w-7 h-7 rounded-full bg-abyss/80 border border-ember/30 flex items-center justify-center text-ember/70 transition-all duration-300">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2 mt-1 mb-2">
+                    <span class="text-[9px] px-1.5 py-0.5 rounded-sm bg-ember/10 border border-ember/20 text-ember/70 font-title tracking-wider uppercase">Lore</span>
+                    <span class="relic-badge-status text-[9px] text-parchment/40 font-title tracking-wider uppercase">Sellado</span>
+                  </div>
+                  <h4 class="font-title text-sm tracking-[0.15em] text-ember_pale/90 relic-title group-hover:text-ember_glow transition-colors">El Juramento de Velariel</h4>
+                  <p class="text-xs text-bone/40 leading-relaxed font-light relic-desc mt-1.5">
+                    Las últimas palabras de la Diosa Nocturna de la memoria antes de fragmentar su espíritu en los bosques de Caelune.
+                  </p>
+                </div>
+
+                <!-- Desplegable Toggle Button -->
+                <button type="button" onclick="toggleRelicAccordion('velariel')" id="btn-toggle-velariel" class="relic-toggle-btn w-full mt-4 py-2 px-3 rounded-sm border border-ember/20 bg-charcoal/40 text-parchment/40 font-title text-[10px] tracking-[0.2em] uppercase flex items-center justify-between transition-all duration-300 pointer-events-none opacity-50">
+                  <span class="btn-text">🔒 Sellado con Runa</span>
+                  <svg class="relic-chevron w-3.5 h-3.5 text-ember" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+
+                <!-- Hidden / Expandable Lore Content -->
+                <div id="content-velariel" class="relic-dropdown">
+                  <div class="pt-3 border-t border-ember/20 space-y-3">
+                    <div class="relic-lore-content space-y-3 p-4 rounded-sm bg-ash/70 border border-ember/30 shadow-inner"></div>
                   </div>
                 </div>
-                <h4 class="font-title text-sm tracking-[0.15em] text-ember_pale/90 relic-title">El Juramento de Velariel</h4>
-                <p class="text-xs text-bone/40 leading-relaxed font-light relic-desc">
-                  Las últimas palabras de la Diosa Nocturna de la memoria antes de fragmentar su espíritu en los bosques de Caelune.
-                </p>
               </div>
-              <div class="pt-4 border-t border-ember/10 flex justify-between items-center text-[10px] font-title text-parchment/40">
+
+              <div class="pt-4 mt-4 border-t border-ember/10 flex justify-between items-center text-[10px] font-title text-parchment/40">
                 <span class="relic-status">Estado: Bloqueado</span>
                 <span>Runa: [???]</span>
               </div>
             </div>
 
-            <!-- Locked Item 3 -->
-            <div id="relic-ceniza" class="glass-card rounded-sm p-6 border border-ember/15 opacity-60 hover:opacity-80 transition-all duration-500 relative flex flex-col justify-between min-h-[220px]">
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-[9px] font-title tracking-[0.25em] text-ember/60 uppercase">Pergamino III</span>
-                  <div class="relic-lock-icon w-7 h-7 rounded-full bg-abyss/80 border border-ember/30 flex items-center justify-center text-ember/70">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <!-- Locked Item 3: IMAGE -->
+            <div id="relic-ceniza" class="relic-card glass-card rounded-sm p-6 border border-ember/15 opacity-60 transition-all duration-500 relative flex flex-col justify-between">
+              <div>
+                <!-- Header (Clickable when unlocked) -->
+                <div class="cursor-pointer select-none group" onclick="toggleRelicAccordion('ceniza')">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[9px] font-title tracking-[0.25em] text-ember/60 uppercase">Pergamino III</span>
+                    <div class="relic-lock-icon w-7 h-7 rounded-full bg-abyss/80 border border-ember/30 flex items-center justify-center text-ember/70 transition-all duration-300">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2 mt-1 mb-2">
+                    <span class="text-[9px] px-1.5 py-0.5 rounded-sm bg-ember/10 border border-ember/20 text-ember/70 font-title tracking-wider uppercase">Imagen</span>
+                    <span class="relic-badge-status text-[9px] text-parchment/40 font-title tracking-wider uppercase">Sellado</span>
+                  </div>
+                  <h4 class="font-title text-sm tracking-[0.15em] text-ember_pale/90 relic-title group-hover:text-ember_glow transition-colors">Tratado de la Llama Oscura</h4>
+                  <p class="text-xs text-bone/40 leading-relaxed font-light relic-desc mt-1.5">
+                    Crónicas prohibidas de la Orden del Nuevo Día y el ritual secreto que selló el destino de la Primera Portadora.
+                  </p>
+                </div>
+
+                <!-- Desplegable Toggle Button -->
+                <button type="button" onclick="toggleRelicAccordion('ceniza')" id="btn-toggle-ceniza" class="relic-toggle-btn w-full mt-4 py-2 px-3 rounded-sm border border-ember/20 bg-charcoal/40 text-parchment/40 font-title text-[10px] tracking-[0.2em] uppercase flex items-center justify-between transition-all duration-300 pointer-events-none opacity-50">
+                  <span class="btn-text">🔒 Sellado con Runa</span>
+                  <svg class="relic-chevron w-3.5 h-3.5 text-ember" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+
+                <!-- Hidden / Expandable Image Content -->
+                <div id="content-ceniza" class="relic-dropdown">
+                  <div class="pt-3 border-t border-ember/20 space-y-3">
+                    <div class="w-full rounded-sm overflow-hidden border border-ember/40 bg-abyss shadow-xl shadow-black/80 relative group cursor-pointer" onclick="openRelicLightbox('ceniza')">
+                      <img class="relic-image w-full h-auto object-cover filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-500" src="" alt="" loading="lazy" />
+                      <div class="absolute inset-0 bg-abyss/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="text-[10px] font-title tracking-[0.2em] uppercase px-3 py-1.5 bg-abyss/90 border border-ember/60 text-ember_pale rounded-sm shadow-md">🔍 Clic para Ampliar</span>
+                      </div>
+                    </div>
+                    <p class="relic-image-caption text-[10px] text-parchment/60 text-center italic font-title tracking-wider"></p>
                   </div>
                 </div>
-                <h4 class="font-title text-sm tracking-[0.15em] text-ember_pale/90 relic-title">Tratado de la Llama Oscura</h4>
-                <p class="text-xs text-bone/40 leading-relaxed font-light relic-desc">
-                  Crónicas prohibidas de la Orden del Nuevo Día y el ritual secreto que selló el destino de la Primera Portadora.
-                </p>
               </div>
-              <div class="pt-4 border-t border-ember/10 flex justify-between items-center text-[10px] font-title text-parchment/40">
+
+              <div class="pt-4 mt-4 border-t border-ember/10 flex justify-between items-center text-[10px] font-title text-parchment/40">
                 <span class="relic-status">Estado: Bloqueado</span>
                 <span>Runa: [???]</span>
               </div>
@@ -1467,22 +1574,65 @@
       let revealedCount = 0;
       let msg = '';
 
+      // Pergamino I: VIDEO (YouTube embed)
+      const ithosData = {
+        type: 'video',
+        runeName: 'ITHOS',
+        title: 'Códice de la Caída de Ithos',
+        desc: '«Cuando las tres lunas convergieron sobre el templo de bronce, la Vigilia no trajo muerte, sino olvido. Solo Eira sostuvo el juramento entre las cenizas de su pueblo.»',
+        videoUrl: 'https://www.youtube.com/embed/dQw4w9WcXgQ'  // Reemplazar con tu video real
+      };
+
+      // Pergamino II: LORE (texto extenso formateado)
+      const velarielData = {
+        type: 'lore',
+        runeName: 'VELARIEL',
+        title: 'El Juramento de Velariel',
+        desc: '«No temas a la noche imperfecta, pues en la oscuridad las pequeñas llamas encuentran su verdadero propósito.»',
+        loreHtml: `
+          <div class="border-l-2 border-ember/50 pl-3 mb-3">
+            <p class="text-[10px] font-title tracking-[0.2em] text-ember/60 uppercase mb-1">Fragmento del Juramento Nocturno</p>
+            <p class="text-xs text-ember_pale italic leading-relaxed">«No temas a la noche imperfecta, pues en la oscuridad las pequeñas llamas encuentran su verdadero propósito. Guía al caminante errante hacia la alborada.»</p>
+          </div>
+          <p class="text-[11px] text-bone/60 leading-relaxed">
+            Velariel, la antigua diosa nocturna de la libertad, la memoria y la imperfección humana, pronunció estas palabras antes de fragmentar su propio espíritu en los bosques de Lýndareth. Su sacrificio no fue un acto de debilidad, sino la última estrategia de una deidad que comprendió que solo dispersando su esencia podría proteger el linaje de los Portadores.
+          </p>
+          <p class="text-[11px] text-bone/60 leading-relaxed mt-2">
+            Cada fragmento de Velariel se convirtió en un eco viviente, capaz de manifestarse ante aquellos dignos de su legado. Lyora, la Primera Portadora, fue la primera en escuchar estos ecos, y tras su sacrificio, el espíritu adoptó su forma para continuar guiando a los protectores de Caelune a través de las eras.
+          </p>
+          <div class="mt-3 pt-2 border-t border-ember/15">
+            <p class="text-[10px] text-ember/50 font-title tracking-wider">Fuente: Archivo de la Torre Silente · Bosque de Lýndareth</p>
+          </div>
+        `
+      };
+
+      // Pergamino III: IMAGEN
+      const cenizaData = {
+        type: 'image',
+        runeName: 'CENIZA',
+        title: 'Tratado de la Llama Oscura',
+        desc: '«La llama verdadera no consume la materia, calcina el alma. Talea ofreció el sacrificio en el altar de obsidiana sabiendo que el ciclo jamás volvería a cerrarse.»',
+        imageSrc: './eira-vael.jpg',  // Reemplazar con la imagen que quieras
+        imageAlt: 'El Ritual de la Llama Oscura',
+        imageCaption: 'El altar de obsidiana donde Talea selló el destino de la Primera Portadora.'
+      };
+
       if (rune === 'ITHOS' || rune === 'EIRA') {
-        revealRelic('ithos', 'ITHOS', 'Códice de la Caída de Ithos', '«Cuando las tres lunas convergieron sobre el templo de bronce, la Vigilia no trajo muerte, sino olvido. Solo Eira sostuvo el juramento entre las cenizas de su pueblo.»');
+        revealRelic('ithos', ithosData);
         revealedCount++;
         msg = '✦ Sello de Ithos quebrado. El Pergamino I ha sido revelado.';
       } else if (rune === 'VELARIEL' || rune === 'LYORA') {
-        revealRelic('velariel', 'VELARIEL', 'El Juramento de Velariel', '«No temas a la noche imperfecta, pues en la oscuridad las pequeñas llamas encuentran su verdadero propósito. Guía al caminante errante hacia la alborada.»');
+        revealRelic('velariel', velarielData);
         revealedCount++;
         msg = '✦ Sello de Velariel disipado. El Pergamino II ha revelado su sabiduría.';
       } else if (rune === 'CENIZA' || rune === 'TALEA' || rune === 'LLAMA') {
-        revealRelic('ceniza', 'CENIZA', 'Tratado de la Llama Oscura', '«La llama verdadera no consume la materia, calcina el alma. Talea ofreció el sacrificio en el altar de obsidiana sabiendo que el ciclo jamás volvería a cerrarse.»');
+        revealRelic('ceniza', cenizaData);
         revealedCount++;
         msg = '✦ Sello de la Llama Oscura roto. El Pergamino III se encuentra accesible.';
       } else if (rune === 'VALMOR' || rune === 'TODO') {
-        revealRelic('ithos', 'ITHOS', 'Códice de la Caída de Ithos', '«Cuando las tres lunas convergieron sobre el templo de bronce, la Vigilia no trajo muerte, sino olvido. Solo Eira sostuvo el juramento entre las cenizas de su pueblo.»');
-        revealRelic('velariel', 'VELARIEL', 'El Juramento de Velariel', '«No temas a la noche imperfecta, pues en la oscuridad las pequeñas llamas encuentran su verdadero propósito. Guía al caminante errante hacia la alborada.»');
-        revealRelic('ceniza', 'CENIZA', 'Tratado de la Llama Oscura', '«La llama verdadera no consume la materia, calcina el alma. Talea ofreció el sacrificio en el altar de obsidiana sabiendo que el ciclo jamás volvería a cerrarse.»');
+        revealRelic('ithos', ithosData);
+        revealRelic('velariel', velarielData);
+        revealRelic('ceniza', cenizaData);
         revealedCount = 3;
         msg = '✦ ¡La Runa Primordial de VALMOR ha quebrado todos los sellos arcanos!';
       } else {
@@ -1498,24 +1648,62 @@
       }
     }
 
-    function revealRelic(id, runeName, title, fullLore) {
+    function toggleRelicAccordion(id) {
+      if (!UNLOCKED_RELICS[id]) {
+        const feedback = document.getElementById('unlock-feedback');
+        if (feedback) {
+          feedback.classList.remove('hidden');
+          feedback.className = 'mt-6 p-4 rounded-sm border border-ember/30 bg-charcoal/60 text-xs font-title text-parchment/60 tracking-wider';
+          feedback.innerHTML = '✦ Este pergamino permanece sellado por la niebla. Ingresa su runa correspondiente para quebrar el sello.';
+        }
+        const card = document.getElementById(`relic-${id}`);
+        if (card) {
+          card.classList.add('border-ember/60', 'shadow-[0_0_20px_rgba(178,150,97,0.3)]');
+          setTimeout(() => card.classList.remove('border-ember/60', 'shadow-[0_0_20px_rgba(178,150,97,0.3)]'), 600);
+        }
+        return;
+      }
+
+      const card = document.getElementById(`relic-${id}`);
+      if (!card) return;
+
+      const isExpanded = card.classList.contains('expanded');
+      const btn = document.getElementById(`btn-toggle-${id}`);
+      const btnText = btn ? btn.querySelector('.btn-text') : null;
+
+      if (isExpanded) {
+        card.classList.remove('expanded');
+        if (btnText) btnText.textContent = '✦ Desplegar Pergamino';
+      } else {
+        card.classList.add('expanded');
+        if (btnText) btnText.textContent = '▲ Plegar Pergamino';
+      }
+    }
+
+    function revealRelic(id, data) {
       const card = document.getElementById(`relic-${id}`);
       if (!card) return;
 
       UNLOCKED_RELICS[id] = true;
       card.classList.remove('opacity-60');
-      card.classList.add('opacity-100', 'border-ember/60', 'shadow-[0_0_25px_rgba(240,224,172,0.3)]');
+      card.classList.add('opacity-100', 'unlocked', 'border-ember/70', 'shadow-[0_0_25px_rgba(240,224,172,0.25)]');
 
       const icon = card.querySelector('.relic-lock-icon');
       if (icon) {
-        icon.className = 'relic-lock-icon w-7 h-7 rounded-full bg-ember/20 border border-ember flex items-center justify-center text-ember_glow';
-        icon.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+        icon.className = 'relic-lock-icon w-7 h-7 rounded-full bg-ember/25 border border-ember flex items-center justify-center text-ember_glow shadow-[0_0_12px_rgba(240,224,172,0.4)]';
+        icon.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+      }
+
+      const badgeStatus = card.querySelector('.relic-badge-status');
+      if (badgeStatus) {
+        badgeStatus.textContent = 'Desbloqueado';
+        badgeStatus.className = 'relic-badge-status text-[9px] text-ember font-semibold font-title tracking-wider uppercase';
       }
 
       const desc = card.querySelector('.relic-desc');
       if (desc) {
-        desc.className = 'text-xs text-parchment/90 leading-relaxed font-normal relic-desc italic';
-        desc.textContent = fullLore;
+        desc.className = 'text-xs text-parchment/90 leading-relaxed font-normal relic-desc italic mt-1.5';
+        desc.textContent = data.desc;
       }
 
       const status = card.querySelector('.relic-status');
@@ -1527,7 +1715,65 @@
       const runeSpan = card.querySelector('.pt-4 span:last-child');
       if (runeSpan) {
         runeSpan.className = 'text-ember_pale font-semibold';
-        runeSpan.textContent = `Runa: ${runeName}`;
+        runeSpan.textContent = `Runa: ${data.runeName}`;
+      }
+
+      // Populate content
+      if (data.type === 'video') {
+        const iframe = card.querySelector('.relic-video');
+        if (iframe) iframe.src = data.videoUrl;
+        const link = card.querySelector('#link-ithos-video');
+        if (link) link.href = data.videoUrl.replace('/embed/', '/watch?v=');
+      } else if (data.type === 'lore') {
+        const loreContainer = card.querySelector('.relic-lore-content');
+        if (loreContainer) loreContainer.innerHTML = data.loreHtml;
+      } else if (data.type === 'image') {
+        const img = card.querySelector('.relic-image');
+        if (img) {
+          img.src = data.imageSrc;
+          img.alt = data.imageAlt;
+        }
+        const caption = card.querySelector('.relic-image-caption');
+        if (caption) caption.textContent = data.imageCaption;
+      }
+
+      // Activate dropdown toggle button
+      const btn = document.getElementById(`btn-toggle-${id}`);
+      if (btn) {
+        btn.className = 'relic-toggle-btn w-full mt-4 py-2.5 px-3 rounded-sm border border-ember/50 bg-ember/15 hover:bg-ember/25 text-ember_pale font-title text-[10px] tracking-[0.2em] uppercase flex items-center justify-between transition-all duration-300 pointer-events-auto cursor-pointer shadow-sm shadow-ember/10';
+        const btnText = btn.querySelector('.btn-text');
+        if (btnText) btnText.textContent = '▲ Plegar Pergamino';
+      }
+
+      // Automatically open the dropdown so the user sees the reward immediately
+      card.classList.add('expanded');
+    }
+
+    function openRelicLightbox(id) {
+      if (!UNLOCKED_RELICS[id]) return;
+      const card = document.getElementById(`relic-${id}`);
+      if (!card) return;
+      const img = card.querySelector('.relic-image');
+      const caption = card.querySelector('.relic-image-caption');
+      if (!img || !img.src) return;
+
+      const modal = document.getElementById('relic-lightbox-modal');
+      const modalImg = document.getElementById('relic-lightbox-img');
+      const modalCap = document.getElementById('relic-lightbox-caption');
+
+      if (modal && modalImg) {
+        modalImg.src = img.src;
+        if (modalCap && caption) modalCap.textContent = caption.textContent;
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      }
+    }
+
+    function closeRelicLightbox() {
+      const modal = document.getElementById('relic-lightbox-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
       }
     }
 
@@ -1727,6 +1973,20 @@
       setTimeout(() => revealStaggerItems(currentEl), 600);
     });
   </script>
+
+  <!-- Lightbox Modal for Unlocked Media -->
+  <div id="relic-lightbox-modal" class="hidden fixed inset-0 z-[100] bg-abyss/90 backdrop-blur-md flex flex-col items-center justify-center p-4 sm:p-8" onclick="closeRelicLightbox()">
+    <div class="relative max-w-4xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
+      <button onclick="closeRelicLightbox()" class="absolute -top-10 right-0 text-parchment/70 hover:text-ember_glow font-title text-xs tracking-widest flex items-center gap-1.5 uppercase transition-colors">
+        <span>Cerrar</span>
+        <span class="text-base">✕</span>
+      </button>
+      <div class="border border-ember/50 rounded-sm overflow-hidden bg-abyss shadow-2xl shadow-black">
+        <img id="relic-lightbox-img" src="" alt="Pergamino Valmor" class="max-h-[80vh] w-auto object-contain filter contrast-105" />
+      </div>
+      <p id="relic-lightbox-caption" class="text-xs text-parchment/80 mt-3 font-title tracking-wider text-center italic"></p>
+    </div>
+  </div>
 
 </body>
 </html>
