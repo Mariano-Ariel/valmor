@@ -333,6 +333,87 @@
     .relic-card.expanded .relic-chevron {
       transform: rotate(180deg);
     }
+
+    /* ========== FULLSCREEN MAP ========== */
+    #map-viewport.map-fullscreen {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      max-height: none !important;
+      min-height: none !important;
+      border-radius: 0 !important;
+      border: none !important;
+      z-index: 9999 !important;
+      margin: 0 !important;
+    }
+
+    /* ========== MOBILE LANDSCAPE OPTIMIZATIONS ========== */
+    @media (max-height: 520px) {
+      /* Reduce heavy top and bottom section paddings */
+      .section-panel > div {
+        padding-top: 4.25rem !important;
+        padding-bottom: 2.5rem !important;
+      }
+
+      /* Compact top navbar */
+      #main-nav .max-w-6xl {
+        padding-top: 0.35rem !important;
+        padding-bottom: 0.35rem !important;
+      }
+
+      /* Compact bottom bar if active */
+      .mobile-bottom-bar {
+        padding: 3px 0 env(safe-area-inset-bottom) !important;
+      }
+      .mobile-bottom-bar button {
+        padding: 4px 0 !important;
+      }
+      .mobile-bottom-bar button .tab-icon-svg {
+        width: 16px !important;
+        height: 16px !important;
+      }
+      body {
+        padding-bottom: 42px !important;
+      }
+
+      /* Hero section scale down so it fits in short screens */
+      #section-home .min-h-screen {
+        min-height: calc(100vh - 40px) !important;
+        padding-top: 3.5rem !important;
+        padding-bottom: 1.5rem !important;
+      }
+      #section-home .hero-title {
+        font-size: 3.25rem !important;
+        line-height: 0.95 !important;
+      }
+      #section-home .hero-line {
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+      #section-home .mt-12 {
+        margin-top: 1rem !important;
+      }
+
+      /* Section headings scale down */
+      .section-panel h2 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+      .section-panel .mb-16,
+      .section-panel .mb-12,
+      .section-panel .mb-8 {
+        margin-bottom: 1rem !important;
+      }
+
+      /* Map container in landscape */
+      #map-viewport:not(.map-fullscreen) {
+        min-height: 260px !important;
+        height: 65vh !important;
+        max-height: 380px !important;
+      }
+    }
   </style>
 </head>
 
@@ -1085,32 +1166,41 @@
         </div>
 
         <!-- Interactive Map Container -->
-        <div class="relative w-full aspect-[16/11] sm:aspect-[16/10] md:aspect-[16/10] min-h-[500px] glass-card rounded-sm overflow-hidden border border-ember/30 shadow-2xl bg-abyss select-none" id="map-viewport">
+        <div class="relative w-full aspect-[16/11] sm:aspect-[16/10] md:aspect-[16/10] min-h-[320px] sm:min-h-[420px] md:min-h-[480px] h-[55vh] sm:h-[60vh] max-h-[640px] glass-card rounded-sm overflow-hidden border border-ember/30 shadow-2xl bg-abyss select-none" id="map-viewport">
           
           <!-- Zoom & Pan Controls (Top Right) -->
-          <div class="absolute top-5 right-5 z-30 flex items-center gap-1.5 bg-abyss/90 border border-ember/40 rounded-sm p-1.5 backdrop-blur-md shadow-2xl">
+          <div class="absolute top-3 sm:top-5 right-3 sm:right-5 z-30 flex items-center gap-1 sm:gap-1.5 bg-abyss/90 border border-ember/40 rounded-sm p-1 sm:p-1.5 backdrop-blur-md shadow-2xl">
             <button 
               onclick="zoomMap(0.2)" 
-              class="w-8 h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-ember_pale font-title flex items-center justify-center transition-all duration-200 text-base font-bold" 
+              class="w-7 h-7 sm:w-8 sm:h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-ember_pale font-title flex items-center justify-center transition-all duration-200 text-sm sm:text-base font-bold" 
               title="Acercar"
             >+</button>
             <button 
               onclick="zoomMap(-0.2)" 
-              class="w-8 h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-ember_pale font-title flex items-center justify-center transition-all duration-200 text-base font-bold" 
+              class="w-7 h-7 sm:w-8 sm:h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-ember_pale font-title flex items-center justify-center transition-all duration-200 text-sm sm:text-base font-bold" 
               title="Alejar"
             >-</button>
             <button 
               onclick="resetMapZoom()" 
-              class="px-2.5 h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-parchment/70 hover:text-ember_pale font-title text-[10px] tracking-wider transition-all duration-200" 
+              class="px-2 sm:px-2.5 h-7 sm:h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-parchment/70 hover:text-ember_pale font-title text-[9px] sm:text-[10px] tracking-wider transition-all duration-200" 
               title="Restablecer vista"
               id="map-zoom-label"
             >100%</button>
+            <button 
+              onclick="toggleMapFullscreen()" 
+              id="btn-map-fullscreen"
+              class="w-7 h-7 sm:w-8 sm:h-8 rounded-sm border border-ember/25 hover:border-ember hover:bg-ember/15 text-ember_pale font-title flex items-center justify-center transition-all duration-200 text-xs sm:text-sm" 
+              title="Pantalla completa"
+            >
+              <svg id="icon-fs-enter" class="w-3.5 h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              <svg id="icon-fs-exit" class="w-3.5 h-3.5 sm:w-4 sm:h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h6v6m10-10h-6V4m0 6 7-7M3 21l7-7"/></svg>
+            </button>
           </div>
 
           <!-- Top Left Kingdom Tag -->
-          <div class="absolute top-5 left-5 z-20 pointer-events-none flex items-center gap-2.5 bg-abyss/85 border border-ember/30 px-3.5 py-1.5 rounded-sm backdrop-blur-md">
+          <div class="absolute top-3 sm:top-5 left-3 sm:left-5 z-20 pointer-events-none flex items-center gap-2 sm:gap-2.5 bg-abyss/85 border border-ember/30 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-sm backdrop-blur-md">
             <span class="text-ember text-xs">◈</span>
-            <span class="font-title text-[11px] text-ember_pale tracking-[0.25em] uppercase">Reino de Caelune</span>
+            <span class="font-title text-[10px] sm:text-[11px] text-ember_pale tracking-[0.25em] uppercase">Reino de Caelune</span>
           </div>
 
           <!-- Scalable & Pannable Map Layer -->
@@ -1242,11 +1332,27 @@
 
           </div>
 
+          <!-- Selected Beacon Drawer (Optimized for Touch & Mobile) -->
+          <div id="map-beacon-drawer" class="hidden absolute bottom-12 sm:bottom-14 left-3 right-3 sm:left-6 sm:right-6 max-w-md mx-auto z-40 p-3.5 sm:p-4 glass-card rounded-sm border border-ember/60 shadow-2xl bg-abyss/95 backdrop-blur-md transition-all duration-300">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex-1 min-w-0">
+                <div id="map-drawer-subtitle" class="text-[9px] font-title text-ember/80 tracking-[0.2em] uppercase mb-0.5"></div>
+                <h4 class="font-title text-sm tracking-wider text-ember_pale font-semibold mb-1 flex items-center gap-2">
+                  <span class="text-xs">🔥</span>
+                  <span id="map-drawer-title"></span>
+                </h4>
+                <p id="map-drawer-desc" class="text-[11px] sm:text-xs text-bone/80 leading-relaxed font-light mt-1"></p>
+                <div id="map-drawer-region" class="mt-2 pt-2 border-t border-ember/20 text-[9px] text-ember_glow font-title"></div>
+              </div>
+              <button onclick="closeMapBeaconDrawer()" class="text-parchment/60 hover:text-ember_pale p-1.5 rounded-sm hover:bg-ember/10 transition-colors font-title text-sm leading-none" aria-label="Cerrar detalle">✕</button>
+            </div>
+          </div>
+
           <!-- Bottom Legend Bar -->
-          <div class="absolute bottom-3 left-4 right-4 z-20 pointer-events-none flex justify-between items-center text-[10px] font-title text-parchment/60 bg-abyss/85 px-4 py-1.5 rounded-sm border border-ember/20 backdrop-blur-sm">
-            <span>Escala: 1 : 100.000 · Cartografía de Caelune</span>
-            <span class="hidden sm:inline">6 Hogueras Reveladas</span>
-            <span class="text-ember_pale">Pasa el cursor para explorar</span>
+          <div class="absolute bottom-2 sm:bottom-3 left-3 right-3 sm:left-4 sm:right-4 z-20 pointer-events-none flex justify-between items-center text-[9px] sm:text-[10px] font-title text-parchment/60 bg-abyss/85 px-3 sm:px-4 py-1.5 rounded-sm border border-ember/20 backdrop-blur-sm">
+            <span class="truncate">Caelune · 6 Hogueras</span>
+            <span class="hidden sm:inline">Pasa el cursor o arrastra</span>
+            <span class="text-ember_pale sm:hidden">Toca una hoguera</span>
           </div>
 
         </div>
@@ -1854,11 +1960,32 @@
       if (layer) layer.style.transition = 'transform 0.3s ease-out';
     }
 
-    // --- Touch drag ---
+    // --- Touch Drag & Pinch-to-Zoom ---
+    let initialPinchDistance = 0;
+    let initialPinchZoom = 1.0;
+    let isPinching = false;
+
+    function getTouchesDistance(t1, t2) {
+      return Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+    }
+
     function onMapTouchStart(e) {
+      if (e.touches.length === 2) {
+        // Pinch-to-zoom gesture
+        isPinching = true;
+        isMapDragging = false;
+        initialPinchDistance = getTouchesDistance(e.touches[0], e.touches[1]);
+        initialPinchZoom = currentMapZoom;
+        const layer = document.getElementById('map-interactive-layer');
+        if (layer) layer.style.transition = 'none';
+        e.preventDefault();
+        return;
+      }
+
       if (e.touches.length !== 1) return;
       if (e.target.closest('[onclick*="selectMapLocation"]') || e.target.closest('button')) return;
       isMapDragging = true;
+      isPinching = false;
       mapDragStartX = e.touches[0].clientX;
       mapDragStartY = e.touches[0].clientY;
       mapPanStartX = mapPanX;
@@ -1868,6 +1995,18 @@
     }
 
     function onMapTouchMove(e) {
+      if (isPinching && e.touches.length === 2) {
+        const currentDist = getTouchesDistance(e.touches[0], e.touches[1]);
+        if (initialPinchDistance > 0) {
+          const scale = currentDist / initialPinchDistance;
+          currentMapZoom = Math.min(Math.max(initialPinchZoom * scale, 0.8), 3.5);
+          clampMapPan();
+          applyMapTransform();
+        }
+        e.preventDefault();
+        return;
+      }
+
       if (!isMapDragging || e.touches.length !== 1) return;
       const dx = e.touches[0].clientX - mapDragStartX;
       const dy = e.touches[0].clientY - mapDragStartY;
@@ -1878,10 +2017,18 @@
       e.preventDefault();
     }
 
-    function onMapTouchEnd() {
-      isMapDragging = false;
-      const layer = document.getElementById('map-interactive-layer');
-      if (layer) layer.style.transition = 'transform 0.3s ease-out';
+    function onMapTouchEnd(e) {
+      if (isPinching && e.touches.length < 2) {
+        isPinching = false;
+        const layer = document.getElementById('map-interactive-layer');
+        if (layer) layer.style.transition = 'transform 0.3s ease-out';
+      }
+      if (e.touches.length === 0) {
+        isMapDragging = false;
+        isPinching = false;
+        const layer = document.getElementById('map-interactive-layer');
+        if (layer) layer.style.transition = 'transform 0.3s ease-out';
+      }
     }
 
     // --- Scroll wheel zoom ---
@@ -1893,6 +2040,95 @@
       applyMapTransform();
     }
 
+    // --- Fullscreen Map Toggle ---
+    function toggleMapFullscreen() {
+      const viewport = document.getElementById('map-viewport');
+      const iconEnter = document.getElementById('icon-fs-enter');
+      const iconExit = document.getElementById('icon-fs-exit');
+      if (!viewport) return;
+
+      const isFs = viewport.classList.toggle('map-fullscreen');
+      if (iconEnter && iconExit) {
+        if (isFs) {
+          iconEnter.classList.add('hidden');
+          iconExit.classList.remove('hidden');
+          document.body.classList.add('overflow-hidden');
+        } else {
+          iconEnter.classList.remove('hidden');
+          iconExit.classList.add('hidden');
+          document.body.classList.remove('overflow-hidden');
+        }
+      }
+      setTimeout(() => {
+        clampMapPan();
+        applyMapTransform();
+      }, 100);
+    }
+
+    // --- Map Location Lore Data ---
+    const MAP_LOCATIONS = {
+      lyndareth: {
+        title: 'Bosque de Lýndareth',
+        subtitle: 'Santuario del Eco',
+        region: 'Norte · Tierras Altas',
+        desc: 'Espesura perenne dominada por la Torre Silente. Lugar donde el espíritu de Velariel guía a los guerreros hacia la alborada.'
+      },
+      tharvalen: {
+        title: 'Cumbres de Thar-Valen',
+        subtitle: 'Cumbre de los Ancestros',
+        region: 'Cordillera Central · Paso Prohibido',
+        desc: 'Picos nevados impenetrables. Sus desfiladeros custodian los templos primordiales anteriores a la gran calamidad.'
+      },
+      aelyrion: {
+        title: 'Lago Aelyrion',
+        subtitle: 'Aguas Místicas',
+        region: 'Cuenca Occidental · Navío Sagrado',
+        desc: 'Espejo de agua donde los navíos de los Portadores descansan. En sus profundidades resuenan lamentos de la antigua Caelune.'
+      },
+      kharzun: {
+        title: 'Arenas de Khar-Zún',
+        subtitle: 'Tierras Áridas',
+        region: 'Este · Dunas Calcinadas',
+        desc: 'Desierto infinito azotado por tormentas de polvo y ceniza. Caravanas de bestias nómadas comercian con reliquias olvidadas.'
+      },
+      valmor: {
+        title: 'Ruinas de Valmor',
+        subtitle: 'Bastión Caído · Hoguera Principal',
+        region: 'Suroeste · Fortaleza Ancestral',
+        desc: 'La colosal fortaleza derruida que da nombre al reino. En sus criptas aún arde la brasa que desafió al fuego de la creación.'
+      },
+      sombras: {
+        title: 'Mar de las Sombras',
+        subtitle: 'Confines Abisales',
+        region: 'Sureste · Límite del Mundo Conocido',
+        desc: 'Acantilados vertiginosos que desembocan en aguas negras perpetuas. Se dice que ningún barco que zarpó hacia el este regresó jamás.'
+      }
+    };
+
+    function selectMapLocation(locationId) {
+      const loc = MAP_LOCATIONS[locationId];
+      if (!loc) return;
+
+      const drawer = document.getElementById('map-beacon-drawer');
+      const titleEl = document.getElementById('map-drawer-title');
+      const subEl = document.getElementById('map-drawer-subtitle');
+      const descEl = document.getElementById('map-drawer-desc');
+      const regEl = document.getElementById('map-drawer-region');
+
+      if (drawer && titleEl && subEl && descEl && regEl) {
+        titleEl.textContent = loc.title;
+        subEl.textContent = loc.subtitle;
+        descEl.textContent = loc.desc;
+        regEl.textContent = loc.region;
+        drawer.classList.remove('hidden');
+      }
+    }
+
+    function closeMapBeaconDrawer() {
+      const drawer = document.getElementById('map-beacon-drawer');
+      if (drawer) drawer.classList.add('hidden');
+    }
+
     // Attach map event listeners once DOM is ready
     window.addEventListener('DOMContentLoaded', () => {
       const viewport = document.getElementById('map-viewport');
@@ -1902,17 +2138,23 @@
       window.addEventListener('mousemove', onMapPointerMove);
       window.addEventListener('mouseup', onMapPointerUp);
 
-      viewport.addEventListener('touchstart', onMapTouchStart, { passive: true });
+      viewport.addEventListener('touchstart', onMapTouchStart, { passive: false });
       viewport.addEventListener('touchmove', onMapTouchMove, { passive: false });
       viewport.addEventListener('touchend', onMapTouchEnd);
 
       viewport.addEventListener('wheel', onMapWheel, { passive: false });
-    });
 
-    function selectMapLocation(locationId) {
-      // Bring click focus to the location beacon
-      console.log('Hoguera seleccionada:', locationId);
-    }
+      window.addEventListener('resize', () => {
+        clampMapPan();
+        applyMapTransform();
+      });
+      window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+          clampMapPan();
+          applyMapTransform();
+        }, 150);
+      });
+    });
 
     // ============ CONTACT / SEND MISSIVE ============
     function sendMissive(event) {
