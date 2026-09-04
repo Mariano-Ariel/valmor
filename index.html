@@ -423,16 +423,13 @@
       transition: background-color 0.4s ease, color 0.4s ease;
     }
 
-    /* Celestial Mode Switch (Desktop & Mobile) */
+    /* Celestial Mode Button (Desktop & Mobile) */
     .theme-toggle-btn {
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
       outline: none;
     }
-    .theme-toggle-thumb {
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.35s ease, box-shadow 0.35s ease;
-    }
-    .theme-icon-moon, .theme-icon-sun {
-      transition: color 0.3s ease, opacity 0.3s ease, text-shadow 0.3s ease;
+    .theme-icon-glyph {
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+      display: inline-block;
     }
 
     /* Collection filters */
@@ -476,30 +473,18 @@
       background: #8e6c33;
     }
 
-    /* Celestial Switch in Light Mode */
+    /* Celestial Button in Light Mode */
     html.theme-light .theme-toggle-btn {
-      background: rgba(240, 233, 220, 0.9) !important;
+      background: rgba(240, 233, 220, 0.95) !important;
       border-color: rgba(143, 107, 40, 0.55) !important;
-      box-shadow: inset 0 1px 3px rgba(143, 107, 40, 0.25);
-    }
-    html.theme-light #theme-toggle-desktop .theme-toggle-thumb {
-      transform: translateX(32px);
-      background: linear-gradient(135deg, #d4a03e, #8f6219);
-      box-shadow: 0 0 12px rgba(212, 160, 62, 0.7);
-      color: #ffffff;
-    }
-    html.theme-light #theme-toggle-mobile .theme-toggle-thumb {
-      transform: translateX(28px);
-      background: linear-gradient(135deg, #d4a03e, #8f6219);
-      box-shadow: 0 0 10px rgba(212, 160, 62, 0.7);
-      color: #ffffff;
-    }
-    html.theme-light .theme-icon-moon {
-      color: rgba(143, 107, 40, 0.35) !important;
-    }
-    html.theme-light .theme-icon-sun {
       color: #78500c !important;
-      text-shadow: 0 0 6px rgba(212, 160, 62, 0.6);
+      box-shadow: 0 0 12px rgba(212, 160, 62, 0.3) !important;
+    }
+    html.theme-light .theme-toggle-btn:hover {
+      background: rgba(235, 224, 206, 1) !important;
+      border-color: #8a6421 !important;
+      color: #523709 !important;
+      box-shadow: 0 0 16px rgba(212, 160, 62, 0.5) !important;
     }
 
     /* Glassmorphism Cards */
@@ -810,20 +795,16 @@
         </button>
       </div>
 
-      <!-- Mobile Theme Toggle (Top Right) -->
-      <div class="md:hidden absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20">
+      <!-- Mobile Theme Toggle (Simple Circular Button) -->
+      <div class="md:hidden absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 -mt-1 z-20">
         <button 
           id="theme-toggle-mobile" 
           onclick="toggleTheme()" 
-          class="theme-toggle-btn group relative flex items-center justify-between w-14 h-7 px-1 rounded-full border border-ember/40 bg-charcoal/60 active:scale-95 transition-all duration-300 backdrop-blur-md cursor-pointer select-none" 
+          class="theme-toggle-btn w-8 h-8 rounded-full border border-ember/40 bg-charcoal/60 active:scale-90 flex items-center justify-center transition-all duration-300 backdrop-blur-md cursor-pointer select-none text-ember hover:text-ember_glow hover:border-ember shadow-md shadow-black/30" 
           aria-label="Cambiar entre modo Umbría y Pergamino" 
           title="Alternar Modo Umbría / Pergamino"
         >
-          <span class="theme-icon-moon text-[10px] text-ember/80 pl-1">☾</span>
-          <span class="theme-icon-sun text-[10px] text-ember/40 pr-1">☼</span>
-          <span class="theme-toggle-thumb absolute left-0.5 w-6 h-6 rounded-full bg-gradient-to-br from-ember to-ember_dim shadow-[0_0_8px_rgba(240,224,172,0.4)] flex items-center justify-center transition-all duration-300 text-[9px] text-abyss font-bold pointer-events-none">
-            <span class="thumb-icon-glyph">☾</span>
-          </span>
+          <span class="theme-icon-glyph text-sm leading-none font-bold">☾</span>
         </button>
       </div>
 
@@ -836,19 +817,15 @@
         <button onclick="navigateTo('map')" class="nav-link font-title text-xs uppercase" data-nav="map" id="nav-map">Mapa</button>
         <button onclick="navigateTo('contact')" class="nav-link font-title text-xs uppercase" data-nav="contact" id="nav-contact">Contacto</button>
 
-        <!-- Celestial Mode Switch (Desktop) -->
+        <!-- Celestial Mode Button (Desktop) -->
         <button 
           id="theme-toggle-desktop" 
           onclick="toggleTheme()" 
-          class="theme-toggle-btn group relative flex items-center justify-between w-16 h-8 px-1.5 rounded-full border border-ember/40 bg-charcoal/60 hover:border-ember transition-all duration-300 backdrop-blur-md cursor-pointer ml-2 select-none" 
+          class="theme-toggle-btn w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-ember/40 bg-charcoal/60 active:scale-90 hover:scale-105 flex items-center justify-center transition-all duration-300 backdrop-blur-md cursor-pointer ml-2 select-none text-ember hover:text-ember_glow hover:border-ember shadow-md shadow-black/30" 
           aria-label="Cambiar entre modo Umbría y Pergamino" 
           title="Alternar Modo Umbría / Pergamino"
         >
-          <span class="theme-icon-moon text-xs text-ember/80 group-hover:text-ember_glow transition-colors pl-1">☾</span>
-          <span class="theme-icon-sun text-xs text-ember/40 group-hover:text-ember transition-colors pr-1">☼</span>
-          <span class="theme-toggle-thumb absolute left-1 w-6 h-6 rounded-full bg-gradient-to-br from-ember to-ember_dim shadow-[0_0_10px_rgba(240,224,172,0.5)] flex items-center justify-center transition-all duration-300 text-[10px] text-abyss font-bold pointer-events-none">
-            <span class="thumb-icon-glyph">☾</span>
-          </span>
+          <span class="theme-icon-glyph text-sm sm:text-base leading-none font-bold">☾</span>
         </button>
       </div>
 
@@ -1896,9 +1873,10 @@
       const isLight = theme === 'light';
       document.documentElement.classList.toggle('theme-light', isLight);
 
-      // Synchronize glyph inside thumb
-      document.querySelectorAll('.thumb-icon-glyph').forEach(glyph => {
-        glyph.textContent = isLight ? '☼' : '☾';
+      // Synchronize glyph inside all theme buttons (desktop and mobile)
+      document.querySelectorAll('.theme-icon-glyph').forEach(icon => {
+        icon.textContent = isLight ? '☼' : '☾';
+        icon.style.transform = isLight ? 'rotate(180deg) scale(1.1)' : 'rotate(0deg) scale(1)';
       });
 
       // Update accessibility labels & titles
